@@ -697,7 +697,7 @@ local u = import 'utils.libsonnet';
     )
     .addRequired(
       type='panel',
-      id='grafana-piechart-panel',
+      id='piechart',
       name='Pie Chart',
       version='1.3.3'
     )

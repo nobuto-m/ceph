@@ -20,15 +20,12 @@ plugin](http://docs.ceph.com/en/latest/mgr/prometheus/) and the
 
 ##### Recommended versions: 
 -grafana 8.3.5
-    -grafana-piechart-panel 1.6.2
     -grafana-status-panel 1.0.11
 
 #### Requirements
 
 - [Status Panel](https://grafana.com/plugins/vonage-status-panel) installed on
  your Grafana instance
-- [Pie Chart Panel](https://grafana.com/grafana/plugins/grafana-piechart-panel/)
- installed on your Grafana instance
 
 
 ### Prometheus alerts
