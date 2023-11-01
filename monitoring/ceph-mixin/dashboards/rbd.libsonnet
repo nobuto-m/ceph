@@ -15,7 +15,7 @@ local u = import 'utils.libsonnet';
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -62,7 +62,7 @@ local u = import 'utils.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('pool',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(pool)',
                           1,
                           false,
@@ -72,7 +72,7 @@ local u = import 'utils.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('image',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(image)',
                           1,
                           false,
@@ -141,7 +141,7 @@ local u = import 'utils.libsonnet';
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -241,7 +241,7 @@ local u = import 'utils.libsonnet';
         7
       ),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         '',
         { col: 3, desc: true },
         [
@@ -272,7 +272,7 @@ local u = import 'utils.libsonnet';
         )
       ) + { gridPos: { x: 0, y: 7, w: 8, h: 7 } },
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         '',
         { col: 3, desc: true },
         [
@@ -303,7 +303,7 @@ local u = import 'utils.libsonnet';
         )
       ) + { gridPos: { x: 8, y: 7, w: 8, h: 7 } },
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         '',
         { col: 3, desc: true },
         [
