@@ -451,7 +451,7 @@
             }
          ],
          "title": "OSD Types Summary",
-         "type": "grafana-piechart-panel",
+         "type": "piechart",
          "valueName": "current"
       },
       {
@@ -491,7 +491,7 @@
             }
          ],
          "title": "OSD Objectstore Types",
-         "type": "grafana-piechart-panel",
+         "type": "piechart",
          "valueName": "current"
       },
       {
@@ -578,7 +578,7 @@
             }
          ],
          "title": "OSD Size Summary",
-         "type": "grafana-piechart-panel",
+         "type": "piechart",
          "valueName": "current"
       },
       {

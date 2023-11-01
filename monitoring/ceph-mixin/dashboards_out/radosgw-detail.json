@@ -416,7 +416,7 @@
             }
          ],
          "title": "Workload Breakdown",
-         "type": "grafana-piechart-panel",
+         "type": "piechart",
          "valueName": "current"
       }
    ],
