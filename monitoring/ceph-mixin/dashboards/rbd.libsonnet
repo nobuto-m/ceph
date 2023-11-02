@@ -1,12 +1,22 @@
 local g = import 'grafonnet/grafana.libsonnet';
 local u = import 'utils.libsonnet';
 
+local info_rbd_stats = std.join(
+  '',
+  [
+    'RBD per-image IO statistics are disabled by default.\n\n',
+    'Please refer to ',
+    'https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics ',
+    'for information about how to enable those optionally.',
+  ]
+);
+
 (import 'utils.libsonnet') {
   'rbd-details.json':
-    local RbdDetailsPanel(title, formatY1, expr1, expr2, x, y, w, h) =
+    local RbdDetailsPanel(title, description, formatY1, expr1, expr2, x, y, w, h) =
       $.graphPanelSchema({},
                          title,
-                         '',
+                         description,
                          'null as zero',
                          false,
                          formatY1,
@@ -80,6 +90,7 @@ local u = import 'utils.libsonnet';
     .addPanels([
       RbdDetailsPanel(
         'IOPS',
+        info_rbd_stats,
         'iops',
         'rate(ceph_rbd_write_ops{%(matchers)s, pool="$pool", image="$image"}[$__rate_interval])' % $.matchers()
         ,
@@ -91,6 +102,7 @@ local u = import 'utils.libsonnet';
       ),
       RbdDetailsPanel(
         'Throughput',
+        info_rbd_stats,
         'Bps',
         'rate(ceph_rbd_write_bytes{%(matchers)s, pool="$pool", image="$image"}[$__rate_interval])' % $.matchers(),
         'rate(ceph_rbd_read_bytes{%(matchers)s, pool="$pool", image="$image"}[$__rate_interval])' % $.matchers(),
@@ -101,6 +113,7 @@ local u = import 'utils.libsonnet';
       ),
       RbdDetailsPanel(
         'Average Latency',
+        info_rbd_stats,
         'ns',
         |||
           rate(ceph_rbd_write_latency_sum{%(matchers)s, pool="$pool", image="$image"}[$__rate_interval]) /
@@ -118,6 +131,7 @@ local u = import 'utils.libsonnet';
     ]),
   'rbd-overview.json':
     local RbdOverviewPanel(title,
+                           description,
                            formatY1,
                            expr1,
                            expr2,
@@ -129,7 +143,7 @@ local u = import 'utils.libsonnet';
                            h) =
       $.graphPanelSchema({},
                          title,
-                         '',
+                         description,
                          'null as zero',
                          false,
                          formatY1,
@@ -190,6 +204,7 @@ local u = import 'utils.libsonnet';
     .addPanels([
       RbdOverviewPanel(
         'IOPS',
+        info_rbd_stats,
         'short',
         'round(sum(rate(ceph_rbd_write_ops{%(matchers)s}[$__rate_interval])))' % $.matchers(),
         'round(sum(rate(ceph_rbd_read_ops{%(matchers)s}[$__rate_interval])))' % $.matchers(),
@@ -202,6 +217,7 @@ local u = import 'utils.libsonnet';
       ),
       RbdOverviewPanel(
         'Throughput',
+        info_rbd_stats,
         'Bps',
         'round(sum(rate(ceph_rbd_write_bytes{%(matchers)s}[$__rate_interval])))' % $.matchers(),
         'round(sum(rate(ceph_rbd_read_bytes{%(matchers)s}[$__rate_interval])))' % $.matchers(),
@@ -214,6 +230,7 @@ local u = import 'utils.libsonnet';
       ),
       RbdOverviewPanel(
         'Average Latency',
+        info_rbd_stats,
         'ns',
         |||
           round(
@@ -236,7 +253,7 @@ local u = import 'utils.libsonnet';
       ),
       $.addTableSchema(
         '${prometheusds}',
-        '',
+        info_rbd_stats,
         { col: 3, desc: true },
         [
           $.overviewStyle('Pool', 'pool', 'string', 'short'),
@@ -267,7 +284,7 @@ local u = import 'utils.libsonnet';
       ) + { gridPos: { x: 0, y: 7, w: 8, h: 7 } },
       $.addTableSchema(
         '${prometheusds}',
-        '',
+        info_rbd_stats,
         { col: 3, desc: true },
         [
           $.overviewStyle('Pool', 'pool', 'string', 'short'),
@@ -298,7 +315,7 @@ local u = import 'utils.libsonnet';
       ) + { gridPos: { x: 8, y: 7, w: 8, h: 7 } },
       $.addTableSchema(
         '${prometheusds}',
-        '',
+        info_rbd_stats,
         { col: 3, desc: true },
         [
           $.overviewStyle('Pool', 'pool', 'string', 'short'),
