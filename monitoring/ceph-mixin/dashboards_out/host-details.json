@@ -58,7 +58,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "$ceph_hosts System Overview",
+         "title": "$juju_unit System Overview",
          "titleSize": "h6",
          "type": "row"
       },
@@ -123,7 +123,7 @@
          "tableColumn": "",
          "targets": [
             {
-               "expr": "count(sum by (ceph_daemon) (ceph_osd_metadata{job=~\"$job\", hostname='$ceph_hosts'}))",
+               "expr": "count(sum by (ceph_daemon) (ceph_osd_metadata{job=~\"$job\", juju_unit='$juju_unit'}))",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "",
@@ -192,7 +192,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum by (mode) (\n  rate(node_cpu{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\", mode=~\"(irq|nice|softirq|steal|system|user|iowait)\"}[$__rate_interval]) or\n  rate(node_cpu_seconds_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\", mode=~\"(irq|nice|softirq|steal|system|user|iowait)\"}[$__rate_interval])\n) / (\n  scalar(\n    sum(rate(node_cpu{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n    rate(node_cpu_seconds_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]))\n  ) * 100\n)\n",
+               "expr": "sum by (mode) (\n  rate(node_cpu{juju_unit=\"$juju_unit\", mode=~\"(irq|nice|softirq|steal|system|user|iowait)\"}[$__rate_interval]) or\n  rate(node_cpu_seconds_total{juju_unit=\"$juju_unit\", mode=~\"(irq|nice|softirq|steal|system|user|iowait)\"}[$__rate_interval])\n) / (\n  scalar(\n    sum(rate(node_cpu{juju_unit=\"$juju_unit\"}[$__rate_interval]) or\n    rate(node_cpu_seconds_total{juju_unit=\"$juju_unit\"}[$__rate_interval]))\n  ) * 100\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{mode}}",
@@ -293,28 +293,28 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "node_memory_MemFree{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n  node_memory_MemFree_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n",
+               "expr": "node_memory_MemFree{juju_unit=\"$juju_unit\"} or\n  node_memory_MemFree_bytes{juju_unit=\"$juju_unit\"}\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "Free",
                "refId": "A"
             },
             {
-               "expr": "node_memory_MemTotal{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n  node_memory_MemTotal_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n",
+               "expr": "node_memory_MemTotal{juju_unit=\"$juju_unit\"} or\n  node_memory_MemTotal_bytes{juju_unit=\"$juju_unit\"}\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "total",
                "refId": "B"
             },
             {
-               "expr": "(\n  node_memory_Cached{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n  node_memory_Cached_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n) + (\n  node_memory_Buffers{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n  node_memory_Buffers_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n) + (\n  node_memory_Slab{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n  node_memory_Slab_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n)\n",
+               "expr": "(\n  node_memory_Cached{juju_unit=\"$juju_unit\"} or\n  node_memory_Cached_bytes{juju_unit=\"$juju_unit\"}\n) + (\n  node_memory_Buffers{juju_unit=\"$juju_unit\"} or\n  node_memory_Buffers_bytes{juju_unit=\"$juju_unit\"}\n) + (\n  node_memory_Slab{juju_unit=\"$juju_unit\"} or\n  node_memory_Slab_bytes{juju_unit=\"$juju_unit\"}\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "buffers/cache",
                "refId": "C"
             },
             {
-               "expr": "(\n  node_memory_MemTotal{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n  node_memory_MemTotal_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n) - (\n  (\n    node_memory_MemFree{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n    node_memory_MemFree_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n  ) + (\n    node_memory_Cached{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n    node_memory_Cached_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n  ) + (\n    node_memory_Buffers{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n    node_memory_Buffers_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n  ) +\n  (\n    node_memory_Slab{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"} or\n    node_memory_Slab_bytes{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}\n  )\n)\n",
+               "expr": "(\n  node_memory_MemTotal{juju_unit=\"$juju_unit\"} or\n  node_memory_MemTotal_bytes{juju_unit=\"$juju_unit\"}\n) - (\n  (\n    node_memory_MemFree{juju_unit=\"$juju_unit\"} or\n    node_memory_MemFree_bytes{juju_unit=\"$juju_unit\"}\n  ) + (\n    node_memory_Cached{juju_unit=\"$juju_unit\"} or\n    node_memory_Cached_bytes{juju_unit=\"$juju_unit\"}\n  ) + (\n    node_memory_Buffers{juju_unit=\"$juju_unit\"} or\n    node_memory_Buffers_bytes{juju_unit=\"$juju_unit\"}\n  ) +\n  (\n    node_memory_Slab{juju_unit=\"$juju_unit\"} or\n    node_memory_Slab_bytes{juju_unit=\"$juju_unit\"}\n  )\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "used",
@@ -405,14 +405,14 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum by (device) (\n  rate(\n    node_network_receive_bytes{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\",device!=\"lo\"}[$__rate_interval]) or\n    rate(node_network_receive_bytes_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\",device!=\"lo\"}[$__rate_interval]\n  )\n)\n",
+               "expr": "sum by (device) (\n  rate(\n    node_network_receive_bytes{juju_unit=\"$juju_unit\",device!=\"lo\"}[$__rate_interval]) or\n    rate(node_network_receive_bytes_total{juju_unit=\"$juju_unit\",device!=\"lo\"}[$__rate_interval]\n  )\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}.rx",
                "refId": "A"
             },
             {
-               "expr": "sum by (device) (\n  rate(node_network_transmit_bytes{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\",device!=\"lo\"}[$__rate_interval]) or\n  rate(node_network_transmit_bytes_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\",device!=\"lo\"}[$__rate_interval])\n)\n",
+               "expr": "sum by (device) (\n  rate(node_network_transmit_bytes{juju_unit=\"$juju_unit\",device!=\"lo\"}[$__rate_interval]) or\n  rate(node_network_transmit_bytes_total{juju_unit=\"$juju_unit\",device!=\"lo\"}[$__rate_interval])\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}.tx",
@@ -503,14 +503,14 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "rate(node_network_receive_drop{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n  rate(node_network_receive_drop_total{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval])\n",
+               "expr": "rate(node_network_receive_drop{juju_unit=\"$juju_unit\"}[$__rate_interval]) or\n  rate(node_network_receive_drop_total{juju_unit=\"$juju_unit\"}[$__rate_interval])\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}.rx",
                "refId": "A"
             },
             {
-               "expr": "rate(node_network_transmit_drop{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n  rate(node_network_transmit_drop_total{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval])\n",
+               "expr": "rate(node_network_transmit_drop{juju_unit=\"$juju_unit\"}[$__rate_interval]) or\n  rate(node_network_transmit_drop_total{juju_unit=\"$juju_unit\"}[$__rate_interval])\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}.tx",
@@ -615,7 +615,7 @@
          "tableColumn": "",
          "targets": [
             {
-               "expr": "sum(\n  ceph_osd_stat_bytes{job=~\"$job\"} and\n    on (ceph_daemon) ceph_disk_occupation{job=~\"$job\", instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}\n)\n",
+               "expr": "sum(\n  ceph_osd_stat_bytes{job=~\"$job\"} and\n    on (ceph_daemon) ceph_disk_occupation{job=~\"$job\", juju_unit=\"$juju_unit\"}\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "",
@@ -683,14 +683,14 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "rate(node_network_receive_errs{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n  rate(node_network_receive_errs_total{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval])\n",
+               "expr": "rate(node_network_receive_errs{juju_unit=\"$juju_unit\"}[$__rate_interval]) or\n  rate(node_network_receive_errs_total{juju_unit=\"$juju_unit\"}[$__rate_interval])\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}.rx",
                "refId": "A"
             },
             {
-               "expr": "rate(node_network_transmit_errs{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n  rate(node_network_transmit_errs_total{instance=~\"$ceph_hosts([\\\\\\\\.:].*)?\"}[$__rate_interval])\n",
+               "expr": "rate(node_network_transmit_errs{juju_unit=\"$juju_unit\"}[$__rate_interval]) or\n  rate(node_network_transmit_errs_total{juju_unit=\"$juju_unit\"}[$__rate_interval])\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}.tx",
@@ -800,14 +800,14 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "label_replace(\n  (\n    rate(node_disk_writes_completed{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n    rate(node_disk_writes_completed_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval])\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n) * on(instance, device) group_left(ceph_daemon) label_replace(\n  label_replace(\n    ceph_disk_occupation_human{job=~\"$job\"}, \"device\", \"$1\", \"device\", \"/dev/(.*)\"\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n)\n",
+               "expr": "(rate(node_disk_writes_completed{juju_unit=\"$juju_unit\"}[$__rate_interval]) or rate(node_disk_writes_completed_total{juju_unit=\"$juju_unit\"}[$__rate_interval])) * on(agent_hostname, device) group_left(ceph_daemon) label_replace(label_replace(\n    ceph_disk_occupation_human, \"device\", \"$1\", \"device\", \"/dev/(.*)\"),\n    \"agent_hostname\", \"$1\", \"instance\", \"(.*)\")",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}({{ceph_daemon}}) writes",
                "refId": "A"
             },
             {
-               "expr": "label_replace(\n  (\n    rate(node_disk_reads_completed{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n    rate(node_disk_reads_completed_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval])\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n) * on(instance, device) group_left(ceph_daemon) label_replace(\n  label_replace(\n    ceph_disk_occupation_human{job=~\"$job\"},\"device\", \"$1\", \"device\", \"/dev/(.*)\"\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n)\n",
+               "expr": "(rate(node_disk_reads_completed{juju_unit=\"$juju_unit\"}[$__rate_interval]) or rate(node_disk_reads_completed_total{juju_unit=\"$juju_unit\"}[$__rate_interval])) * on(agent_hostname, device) group_left(ceph_daemon) label_replace(label_replace(\n    ceph_disk_occupation_human, \"device\", \"$1\", \"device\", \"/dev/(.*)\"),\n    \"agent_hostname\", \"$1\", \"instance\", \"(.*)\")",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}({{ceph_daemon}}) reads",
@@ -817,7 +817,7 @@
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "$ceph_hosts Disk IOPS",
+         "title": "$juju_unit Disk IOPS",
          "tooltip": {
             "shared": true,
             "sort": 0,
@@ -898,14 +898,14 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "label_replace(\n  (\n    rate(node_disk_bytes_written{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n    rate(node_disk_written_bytes_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval])\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\") * on(instance, device)\n  group_left(ceph_daemon) label_replace(\n    label_replace(ceph_disk_occupation_human{job=~\"$job\"}, \"device\", \"$1\", \"device\", \"/dev/(.*)\"),\n    \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n  )\n",
+               "expr": "(rate(node_disk_bytes_written{juju_unit=\"$juju_unit\"}[$__rate_interval]) or rate(node_disk_written_bytes_total{juju_unit=\"$juju_unit\"}[$__rate_interval])) * on(agent_hostname, device) group_left(ceph_daemon) label_replace(label_replace(\n    ceph_disk_occupation_human, \"device\", \"$1\", \"device\", \"/dev/(.*)\"),\n    \"agent_hostname\", \"$1\", \"instance\", \"(.*)\")",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}({{ceph_daemon}}) write",
                "refId": "A"
             },
             {
-               "expr": "label_replace(\n  (\n    rate(node_disk_bytes_read{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) or\n    rate(node_disk_read_bytes_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval])\n  ),\n  \"instance\", \"$1\", \"instance\", \"([^:.]*).*\") * on(instance, device)\n  group_left(ceph_daemon) label_replace(\n    label_replace(ceph_disk_occupation_human{job=~\"$job\"}, \"device\", \"$1\", \"device\", \"/dev/(.*)\"),\n    \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n  )\n",
+               "expr": "(rate(node_disk_bytes_read{juju_unit=\"$juju_unit\"}[$__rate_interval]) or rate(node_disk_read_bytes_total{juju_unit=\"$juju_unit\"}[$__rate_interval])) * on(agent_hostname, device) group_left(ceph_daemon) label_replace(label_replace(\n    ceph_disk_occupation_human, \"device\", \"$1\", \"device\", \"/dev/(.*)\"),\n    \"agent_hostname\", \"$1\", \"instance\", \"(.*)\")",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}({{ceph_daemon}}) read",
@@ -915,7 +915,7 @@
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "$ceph_hosts Throughput by Disk",
+         "title": "$juju_unit Throughput by Disk",
          "tooltip": {
             "shared": true,
             "sort": 0,
@@ -991,7 +991,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "max by(instance, device) (label_replace(\n  (rate(node_disk_write_time_seconds_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval])) /\n    clamp_min(rate(node_disk_writes_completed_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]), 0.001) or\n    (rate(node_disk_read_time_seconds_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval])) /\n      clamp_min(rate(node_disk_reads_completed_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]), 0.001),\n  \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n)) * on(instance, device) group_left(ceph_daemon) label_replace(\n  label_replace(\n    ceph_disk_occupation_human{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"},\n    \"device\", \"$1\", \"device\", \"/dev/(.*)\"\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n)\n",
+               "expr": "max by(agent_hostname, device) (\n  (rate(node_disk_write_time_seconds_total{juju_unit=\"$juju_unit\"}[$__rate_interval])) /\n    clamp_min(rate(node_disk_writes_completed_total{juju_unit=\"$juju_unit\"}[$__rate_interval]), 0.001) or\n    (rate(node_disk_read_time_seconds_total{juju_unit=\"$juju_unit\"}[$__rate_interval])) /\n      clamp_min(rate(node_disk_reads_completed_total{juju_unit=\"$juju_unit\"}[$__rate_interval]), 0.001)\n) * on(agent_hostname, device) group_left(ceph_daemon) label_replace(\n  label_replace(\n    ceph_disk_occupation_human,\n    \"device\", \"$1\", \"device\", \"/dev/(.*)\"\n  ), \"agent_hostname\", \"$1\", \"instance\", \"(.*)\"\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}({{ceph_daemon}})",
@@ -1001,7 +1001,7 @@
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "$ceph_hosts Disk Latency",
+         "title": "$juju_unit Disk Latency",
          "tooltip": {
             "shared": true,
             "sort": 0,
@@ -1077,7 +1077,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "label_replace(\n  (\n    (rate(node_disk_io_time_ms{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) / 10) or\n    rate(node_disk_io_time_seconds_total{instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"}[$__rate_interval]) * 100\n  ), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n) * on(instance, device) group_left(ceph_daemon) label_replace(\n  label_replace(ceph_disk_occupation_human{job=~\"$job\", instance=~\"($ceph_hosts)([\\\\\\\\.:].*)?\"},\n  \"device\", \"$1\", \"device\", \"/dev/(.*)\"), \"instance\", \"$1\", \"instance\", \"([^:.]*).*\"\n)\n",
+               "expr": "(\n    (rate(node_disk_io_time_ms{juju_unit=\"$juju_unit\"}[$__rate_interval]) / 10) or\n    rate(node_disk_io_time_seconds_total{juju_unit=\"$juju_unit\"}[$__rate_interval]) * 100\n  ) * on(agent_hostname, device) group_left(ceph_daemon) label_replace(\n  label_replace(ceph_disk_occupation_human,\n  \"device\", \"$1\", \"device\", \"/dev/(.*)\"), \"agent_hostname\", \"$1\", \"instance\", \"(.*)\"\n)\n",
                "format": "time_series",
                "intervalFactor": 1,
                "legendFormat": "{{device}}({{ceph_daemon}})",
@@ -1087,7 +1087,7 @@
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "$ceph_hosts Disk utilization",
+         "title": "$juju_unit Disk utilization",
          "tooltip": {
             "shared": true,
             "sort": 0,
@@ -1148,7 +1148,7 @@
                "dateFormat": "YYYY-MM-DD HH:mm:ss",
                "decimals": 2,
                "mappingType": 1,
-               "pattern": "instance",
+               "pattern": "juju_unit",
                "thresholds": [ ],
                "type": "string",
                "unit": "short",
@@ -1191,7 +1191,7 @@
          ],
          "targets": [
             {
-               "expr": "topk(10,\n  (sum by (instance)(ceph_daemon_health_metrics{type=\"SLOW_OPS\", ceph_daemon=~\"osd.*\"}))\n)\n",
+               "expr": "topk(10,\n  (sum by (juju_unit)(ceph_daemon_health_metrics{type=\"SLOW_OPS\", ceph_daemon=~\"osd.*\"}))\n)\n",
                "format": "table",
                "instant": true,
                "intervalFactor": 1,
@@ -1276,11 +1276,11 @@
             "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": false,
-            "label": "Hostname",
+            "label": "Juju unit",
             "multi": false,
-            "name": "ceph_hosts",
+            "name": "juju_unit",
             "options": [ ],
-            "query": "label_values(instance)",
+            "query": "label_values(juju_unit)",
             "refresh": 1,
             "regex": "([^.:]*).*",
             "sort": 3,
