@@ -90,7 +90,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ],
       ),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         "This table shows the osd's that are delivering the 10 highest read latencies within the cluster",
         { col: 2, desc: true },
         [
@@ -165,7 +165,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ],
       ),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         "This table shows the osd's that are delivering the 10 highest write latencies within the cluster",
         { col: 2, desc: true },
         [
@@ -245,7 +245,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         'count(ceph_osd_stat_bytes{%(matchers)s} >= 13194139533312)' % $.matchers(), '<12TB+', 'time_series', 2
       )) + { gridPos: { x: 8, y: 8, w: 4, h: 8 } },
       g.graphPanel.new(bars=true,
-                       datasource='$datasource',
+                       datasource='${prometheusds}',
                        title='Distribution of PGs per OSD',
                        x_axis_buckets=20,
                        x_axis_mode='histogram',
@@ -301,7 +301,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         'round(sum(rate(ceph_pool_wr{%(matchers)s}[$__rate_interval])))' % $.matchers(), 'Writes'
       )]),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         'This table shows the 10 OSDs with the highest number of slow ops',
         { col: 2, desc: true },
         [
@@ -350,7 +350,7 @@ local g = import 'grafonnet/grafana.libsonnet';
                          null,
                          null,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -400,7 +400,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('osd',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_osd_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           false,
@@ -599,7 +599,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         null,
         null,
         1,
-        '$datasource'
+        '${prometheusds}'
       )
       .addTarget($.addTargetSchema(
         |||
