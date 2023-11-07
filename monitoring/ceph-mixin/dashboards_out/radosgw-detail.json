@@ -67,7 +67,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fill": 1,
          "fillGradient": 0,
@@ -160,7 +160,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fill": 1,
          "fillGradient": 0,
@@ -259,7 +259,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fill": 1,
          "fillGradient": 0,
@@ -369,7 +369,7 @@
             "PUTs": "#eab839",
             "Requests": "#3f2b5b"
          },
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "gridPos": {
             "h": 8,
@@ -447,7 +447,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -467,7 +467,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "job",
@@ -487,7 +487,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "",

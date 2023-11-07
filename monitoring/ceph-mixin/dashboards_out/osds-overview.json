@@ -56,7 +56,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fill": 1,
          "fillGradient": 0,
@@ -153,7 +153,7 @@
       },
       {
          "columns": [ ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "This table shows the osd's that are delivering the 10 highest read latencies within the cluster",
          "gridPos": {
             "h": 8,
@@ -243,7 +243,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fill": 1,
          "fillGradient": 0,
@@ -340,7 +340,7 @@
       },
       {
          "columns": [ ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "This table shows the osd's that are delivering the 10 highest write latencies within the cluster",
          "gridPos": {
             "h": 8,
@@ -425,7 +425,7 @@
       },
       {
          "aliasColors": { },
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "gridPos": {
             "h": 8,
@@ -458,7 +458,7 @@
          "aliasColors": {
             "Non-Encrypted": "#E5AC0E"
          },
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "gridPos": {
             "h": 8,
@@ -496,7 +496,7 @@
       },
       {
          "aliasColors": { },
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "The pie chart shows the various OSD sizes used within the cluster",
          "gridPos": {
             "h": 8,
@@ -586,7 +586,7 @@
          "bars": true,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "fill": 1,
          "fillGradient": 0,
          "gridPos": {
@@ -676,7 +676,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "This gauge panel shows onode Hits ratio to help determine if increasing RAM per OSD could help improve the performance of the cluster",
          "format": "percentunit",
          "gauge": {
@@ -773,7 +773,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Show the read/write workload profile overtime",
          "fill": 1,
          "fillGradient": 0,
@@ -863,7 +863,7 @@
       },
       {
          "columns": [ ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "This table shows the 10 OSDs with the highest number of slow ops",
          "gridPos": {
             "h": 8,
@@ -973,7 +973,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -993,7 +993,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "job",

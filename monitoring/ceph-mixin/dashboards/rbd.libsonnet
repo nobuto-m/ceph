@@ -25,7 +25,7 @@ local info_rbd_stats = std.join(
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -72,7 +72,7 @@ local info_rbd_stats = std.join(
     )
     .addTemplate(
       $.addTemplateSchema('pool',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(pool)',
                           1,
                           false,
@@ -82,7 +82,7 @@ local info_rbd_stats = std.join(
     )
     .addTemplate(
       $.addTemplateSchema('image',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(image)',
                           1,
                           false,
@@ -155,7 +155,7 @@ local info_rbd_stats = std.join(
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -258,7 +258,7 @@ local info_rbd_stats = std.join(
         7
       ),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         info_rbd_stats,
         { col: 3, desc: true },
         [
@@ -289,7 +289,7 @@ local info_rbd_stats = std.join(
         )
       ) + { gridPos: { x: 0, y: 7, w: 8, h: 7 } },
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         info_rbd_stats,
         { col: 3, desc: true },
         [
@@ -320,7 +320,7 @@ local info_rbd_stats = std.join(
         )
       ) + { gridPos: { x: 8, y: 7, w: 8, h: 7 } },
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         info_rbd_stats,
         { col: 3, desc: true },
         [

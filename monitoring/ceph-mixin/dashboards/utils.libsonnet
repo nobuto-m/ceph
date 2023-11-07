@@ -239,7 +239,7 @@ local timeSeries = import 'timeseries_panel.libsonnet';
   addClusterTemplate()::
     $.addTemplateSchema(
       'cluster',
-      '$datasource',
+      '${prometheusds}',
       'label_values(ceph_osd_metadata, %s)' % $._config.clusterLabel,
       1,
       true,
@@ -254,7 +254,7 @@ local timeSeries = import 'timeseries_panel.libsonnet';
   addJobTemplate()::
     $.addTemplateSchema(
       'job',
-      '$datasource',
+      '${prometheusds}',
       'label_values(ceph_osd_metadata{%(clusterMatcher)s}, job)' % $.matchers(),
       1,
       true,
@@ -311,7 +311,7 @@ local timeSeries = import 'timeseries_panel.libsonnet';
                        null,
                        min,
                        1,
-                       '$datasource')
+                       '${prometheusds}')
     .addTargets(
       [$.addTargetSchema(expr, legendFormat)]
     ) + { gridPos: { x: x, y: y, w: w, h: h } },
@@ -328,7 +328,7 @@ local timeSeries = import 'timeseries_panel.libsonnet';
                         w,
                         h)::
     $.addSingleStatSchema(['#299c46', 'rgba(237, 129, 40, 0.89)', '#d44a3a'],
-                          '$datasource',
+                          '${prometheusds}',
                           format,
                           title,
                           description,
@@ -357,7 +357,7 @@ local timeSeries = import 'timeseries_panel.libsonnet';
                        w,
                        h)::
     $.addSingleStatSchema(['#299c46', 'rgba(237, 129, 40, 0.89)', '#d44a3a'],
-                          '$datasource',
+                          '${prometheusds}',
                           format,
                           title,
                           description,
@@ -372,7 +372,7 @@ local timeSeries = import 'timeseries_panel.libsonnet';
 
   simplePieChart(alias, description, title)::
     $.addPieChartSchema(alias,
-                        '$datasource',
+                        '${prometheusds}',
                         description,
                         'Under graph',
                         'pie',

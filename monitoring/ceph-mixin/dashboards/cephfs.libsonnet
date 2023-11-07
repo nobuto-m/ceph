@@ -40,7 +40,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('mds_servers',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_mds_inodes{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           true,
