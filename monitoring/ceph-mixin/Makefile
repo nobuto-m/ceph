@@ -11,6 +11,11 @@ vendor: jsonnetfile.lock.json
 
 dashboards_out: vendor dashboards
 	tox -ejsonnet-fix
+	# COS has a newer enough version of Grafana with the embedded
+	# piechart support instead of installing an external piechart
+	# plugin. This is a quick workaround until
+	# https://tracker.ceph.com/issues/56651 is fixed in the ustream
+	sed -i -e 's/grafana-piechart-panel/piechart/' dashboards_out/*.json
 
 lint:
 	tox -ejsonnet-lint
