@@ -45,7 +45,7 @@
         "rgba(237, 129, 40, 0.9)",
         "rgb(255, 0, 0)"
       ],
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "editable": false,
       "error": false,
       "format": "none",
@@ -144,7 +144,7 @@
         "warn": "rgba(237, 129, 40, 0.9)"
       },
       "cornerRadius": 0,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "displayName": "",
       "flipCard": false,
       "flipTime": 5,
@@ -268,7 +268,7 @@
         "warn": "rgba(237, 129, 40, 0.9)"
       },
       "cornerRadius": 1,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "displayName": "",
       "flipCard": false,
       "flipTime": 5,
@@ -362,7 +362,7 @@
         "warn": "rgba(237, 129, 40, 0.9)"
       },
       "cornerRadius": 1,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "displayName": "",
       "flipCard": false,
       "flipTime": 5,
@@ -438,7 +438,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "decimals": 2,
       "format": "percentunit",
       "gauge": {
@@ -516,7 +516,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "fill": 0,
       "gridPos": {
         "h": 6,
@@ -672,7 +672,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "fill": 0,
       "gridPos": {
         "h": 6,
@@ -778,7 +778,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -870,7 +870,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -958,7 +958,7 @@
         "mode": "spectrum"
       },
       "dataFormat": "timeseries",
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "gridPos": {
         "h": 9,
         "w": 6,
@@ -1021,7 +1021,7 @@
         "mode": "spectrum"
       },
       "dataFormat": "timeseries",
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "gridPos": {
         "h": 9,
         "w": 6,
@@ -1072,7 +1072,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${prometheusds}",
       "fill": 0,
       "gridPos": {
         "h": 9,
@@ -1157,16 +1157,6 @@
   ],
   "templating": {
     "list": [
-      {
-        "hide": 0,
-        "label": null,
-        "name": "datasource",
-        "options": [],
-        "query": "prometheus",
-        "refresh": 1,
-        "regex": "",
-        "type": "datasource"
-      },
       {
         "auto": true,
         "auto_count": 10,
