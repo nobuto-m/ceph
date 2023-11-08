@@ -687,12 +687,6 @@ local u = import 'utils.libsonnet';
       type='grafana', id='grafana', name='Grafana', version='5.0.0'
     )
     .addRequired(
-      type='panel',
-      id='grafana-piechart-panel',
-      name='Pie Chart',
-      version='1.3.3'
-    )
-    .addRequired(
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
