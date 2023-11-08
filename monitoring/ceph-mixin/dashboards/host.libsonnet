@@ -33,12 +33,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       )
     )
     .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -305,9 +299,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       $.addAnnotationSchema(
         1, '-- Grafana --', true, true, 'rgba(0, 211, 255, 1)', 'Annotations & Alerts', 'dashboard'
       )
-    )
-    .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()

@@ -54,9 +54,6 @@ local u = import 'utils.libsonnet';
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -186,12 +183,6 @@ local u = import 'utils.libsonnet';
     )
     .addRequired(
       type='panel', id='graph', name='Graph', version='5.0.0'
-    )
-    .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()
@@ -703,12 +694,6 @@ local u = import 'utils.libsonnet';
     )
     .addRequired(
       type='panel', id='graph', name='Graph', version='5.0.0'
-    )
-    .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()

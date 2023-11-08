@@ -24,9 +24,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       )
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -386,9 +383,6 @@ local g = import 'grafonnet/grafana.libsonnet';
         'Annotations & Alerts',
         'dashboard'
       )
-    )
-    .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()
