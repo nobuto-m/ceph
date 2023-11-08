@@ -36,9 +36,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       type='panel', id='table', name='Table', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -385,12 +382,6 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addRequired(
       type='panel', id='graph', name='Graph', version='5.0.0'
-    )
-    .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()

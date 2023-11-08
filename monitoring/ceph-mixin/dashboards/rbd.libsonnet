@@ -62,9 +62,6 @@ local info_rbd_stats = std.join(
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -197,9 +194,6 @@ local info_rbd_stats = std.join(
     )
     .addRequired(
       type='panel', id='table', name='Table', version='5.0.0'
-    )
-    .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()
