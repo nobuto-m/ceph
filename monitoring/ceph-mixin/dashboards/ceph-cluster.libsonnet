@@ -64,7 +64,7 @@ local u = import 'utils.libsonnet';
       u.addStatPanel(
         title='Ceph health status',
         unit='none',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ x: 0, y: 1, w: 3, h: 3 },
         colorMode='value',
         interval='1m',
@@ -92,7 +92,7 @@ local u = import 'utils.libsonnet';
         expr='ceph_health_status{}',
         instant=true,
         interval='$interval',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         step=300,
       )),
 
@@ -116,14 +116,14 @@ local u = import 'utils.libsonnet';
         expr='(ceph_cluster_total_bytes{}-ceph_cluster_total_used_bytes{})/ceph_cluster_total_bytes{}',
         instant=true,
         interval='$interval',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         step=300
       )),
 
       u.addStatPanel(
         title='Cluster Capacity',
         unit='decbytes',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ x: 6, y: 1, w: 3, h: 3 },
         graphMode='area',
         decimals=2,
@@ -142,14 +142,14 @@ local u = import 'utils.libsonnet';
         expr='ceph_cluster_total_bytes{}',
         instant=true,
         interval='$interval',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         step=300
       )),
 
       u.addStatPanel(
         title='Write Throughput',
         unit='Bps',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ x: 9, y: 1, w: 3, h: 3 },
         decimals=1,
         color={ mode: 'thresholds' },
@@ -164,13 +164,13 @@ local u = import 'utils.libsonnet';
         expr='sum(irate(ceph_osd_op_w_in_bytes{}[5m]))',
         instant=true,
         interval='$interval',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
       )),
 
       u.addStatPanel(
         title='Read Throughput',
         unit='Bps',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ x: 12, y: 1, w: 3, h: 3 },
         decimals=1,
         color={ mode: 'thresholds' },
@@ -187,12 +187,12 @@ local u = import 'utils.libsonnet';
         expr='sum(irate(ceph_osd_op_r_out_bytes{}[5m]))',
         instant=true,
         interval='$interval',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
       )),
 
       u.addStatPanel(
         title='OSDs',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 3, w: 6, x: 15, y: 1 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -234,7 +234,7 @@ local u = import 'utils.libsonnet';
           expr='count(ceph_osd_metadata)',
           legendFormat='All',
           interval='$interval',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
         ),
         u.addTargetSchema(
           aggregation='Last',
@@ -248,7 +248,7 @@ local u = import 'utils.libsonnet';
           expr='count(ceph_osd_in)',
           legendFormat='In',
           interval='$interval',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
         ),
         u.addTargetSchema(
           aggregation='Last',
@@ -263,7 +263,7 @@ local u = import 'utils.libsonnet';
           legendFormat='Out',
           interval='',
           warn=1,
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
         ),
         u.addTargetSchema(
           aggregation='Last',
@@ -277,7 +277,7 @@ local u = import 'utils.libsonnet';
           expr='sum(ceph_osd_up)',
           legendFormat='Up',
           interval='',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
         ),
         u.addTargetSchema(
           aggregation='Last',
@@ -292,13 +292,13 @@ local u = import 'utils.libsonnet';
           legendFormat='Down',
           interval='',
           warn=1,
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
         ),
       ]),
 
       u.addStatPanel(
         title='MGRs',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 6, w: 3, x: 21, y: 1 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -339,7 +339,7 @@ local u = import 'utils.libsonnet';
           valueHandler='Number Threshold',
           expr='count(ceph_mgr_status == 1) or vector(0)',
           legendFormat='Active',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
         u.addTargetSchema(
@@ -353,14 +353,14 @@ local u = import 'utils.libsonnet';
           valueHandler='Number Threshold',
           expr='count(ceph_mgr_status == 0) or vector(0)',
           legendFormat='Standby',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
       ]),
 
       u.addStatPanel(
         title='Firing Alerts',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 3, w: 3, x: 0, y: 4 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -409,7 +409,7 @@ local u = import 'utils.libsonnet';
           valueHandler='Number Threshold',
           expr='count(ALERTS{alertstate="firing",alertname=~"^Ceph.+", severity="critical"}) OR vector(0)',
           legendFormat='Critical',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
         u.addTargetSchema(
@@ -423,14 +423,14 @@ local u = import 'utils.libsonnet';
           valueHandler='Number Threshold',
           expr='count(ALERTS{alertstate="firing",alertname=~"^Ceph.+", severity="warning"}) OR vector(0)',
           legendFormat='Warning',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
       ]),
 
       u.addStatPanel(
         title='Used Capacity',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 3, w: 3, x: 6, y: 4 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -454,14 +454,14 @@ local u = import 'utils.libsonnet';
         u.addTargetSchema(
           expr='ceph_cluster_total_used_bytes{}',
           legendFormat='',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
       ]),
 
       u.addStatPanel(
         title='Write IOPS',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 3, w: 3, x: 9, y: 4 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -483,14 +483,14 @@ local u = import 'utils.libsonnet';
         u.addTargetSchema(
           expr='sum(irate(ceph_osd_op_w{}[1m]))',
           legendFormat='',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
       ]),
 
       u.addStatPanel(
         title='Read IOPS',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 3, w: 3, x: 12, y: 4 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -514,14 +514,14 @@ local u = import 'utils.libsonnet';
         u.addTargetSchema(
           expr='sum(irate(ceph_osd_op_r{}[1m]))',
           legendFormat='',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           instant=true,
         ),
       ]),
 
       u.addStatPanel(
         title='Monitors',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 3, w: 6, x: 15, y: 4 },
         color={ mode: 'thresholds' },
         thresholdsMode='absolute',
@@ -562,7 +562,7 @@ local u = import 'utils.libsonnet';
           valueHandler='Text Only',
           expr='sum(ceph_mon_quorum_status)',
           legendFormat='In Quorum',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
         ),
         u.addTargetSchema(
           aggregation='Last',
@@ -576,7 +576,7 @@ local u = import 'utils.libsonnet';
           valueHandler='Text Only',
           expr='count(ceph_mon_quorum_status)',
           legendFormat='Total',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           warn=2,
         ),
         u.addTargetSchema(
@@ -591,7 +591,7 @@ local u = import 'utils.libsonnet';
           valueHandler='Number Threshold',
           expr='count(ceph_mon_quorum_status) - sum(ceph_mon_quorum_status)',
           legendFormat='MONs out of Quorum',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           warn=1.1,
           range=true,
         ),
@@ -622,7 +622,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Capacity',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 8, w: 8, x: 8, y: 8 },
         fillOpacity=40,
         pointSize=5,
@@ -672,7 +672,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='ceph_cluster_total_bytes{}',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             instant=false,
             legendFormat='Total Capacity',
@@ -681,7 +681,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='ceph_cluster_total_used_bytes{}',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             instant=false,
             legendFormat='Used',
@@ -693,7 +693,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Cluster Throughput',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 8, w: 8, x: 16, y: 8 },
         fillOpacity=10,
         pointSize=5,
@@ -716,7 +716,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='sum(irate(ceph_osd_op_w_in_bytes{}[5m]))',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Write',
             step=300,
@@ -724,7 +724,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='sum(irate(ceph_osd_op_r_out_bytes{}[5m]))',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Read',
             step=300,
@@ -735,7 +735,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='IOPS',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 8, w: 8, x: 0, y: 16 },
         fillOpacity=10,
         pointSize=5,
@@ -759,7 +759,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='sum(irate(ceph_osd_op_w{}[1m]))',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Write',
             step=300,
@@ -767,7 +767,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='sum(irate(ceph_osd_op_r{}[1m]))',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Read',
             step=300,
@@ -778,7 +778,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Pool Used Bytes',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 8, w: 8, x: 8, y: 16 },
         fillOpacity=10,
         pointSize=5,
@@ -802,7 +802,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='(ceph_pool_bytes_used{}) *on (pool_id) group_left(name)(ceph_pool_metadata{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='{{name}}',
             step=300,
@@ -812,7 +812,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Pool Used RAW Bytes',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 8, w: 8, x: 16, y: 16 },
         fillOpacity=10,
         pointSize=5,
@@ -846,7 +846,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='(ceph_pool_stored_raw{}) *on (pool_id) group_left(name)(ceph_pool_metadata{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='',
             legendFormat='{{name}}',
             step=300,
@@ -858,7 +858,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Pool Objects Quota',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 7, w: 8, x: 0, y: 24 },
         fillOpacity=10,
         pointSize=5,
@@ -882,7 +882,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='(ceph_pool_quota_objects{}) *on (pool_id) group_left(name)(ceph_pool_metadata{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='',
             legendFormat='{{name}}',
             step=300,
@@ -892,7 +892,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Pool Quota Bytes',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 7, w: 8, x: 8, y: 24 },
         fillOpacity=10,
         pointSize=5,
@@ -916,7 +916,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='(ceph_pool_quota_bytes{}) *on (pool_id) group_left(name)(ceph_pool_metadata{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='',
             legendFormat='{{name}}',
             step=300,
@@ -926,7 +926,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Objects Per Pool',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 7, w: 8, x: 16, y: 24 },
         fillOpacity=10,
         pointSize=5,
@@ -950,7 +950,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='(ceph_pool_objects{}) *on (pool_id) group_left(name)(ceph_pool_metadata{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='',
             legendFormat='{{name}}',
           ),
@@ -961,7 +961,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='OSD Type Count',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 12, w: 6, x: 0, y: 32 },
         fillOpacity=10,
         pointSize=5,
@@ -997,7 +997,7 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='sum(ceph_pool_objects)',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Total',
             range=true,
@@ -1008,7 +1008,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='PGs State',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 12, w: 8, x: 6, y: 32 },
         fillOpacity=10,
         pointSize=5,
@@ -1045,28 +1045,28 @@ local u = import 'utils.libsonnet';
         [
           u.addTargetSchema(
             expr='sum(ceph_pg_active{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Active',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_clean{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Clean',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_peering{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Peering',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_degraded{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Degraded',
             range=true,
@@ -1074,7 +1074,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_stale{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Stale',
             range=true,
@@ -1082,7 +1082,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='sum(ceph_unclean_pgs{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Unclean',
             range=true,
@@ -1090,7 +1090,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_undersized{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Undersized',
             range=true,
@@ -1098,98 +1098,98 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_incomplete{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Incomplete',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_forced_backfill{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Forced Backfill',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_forced_recovery{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Forced Recovery',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_creating{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Creating',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_wait_backfill{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Wait Backfill',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_deep{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Deep',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_scrubbing{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Scrubbing',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_recovering{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Recovering',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_repair{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Repair',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_down{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Down',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_peered{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Peered',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_backfill{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Backfill',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_remapped{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Remapped',
             range=true,
           ),
           u.addTargetSchema(
             expr='sum(ceph_pg_backfill_toofull{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             interval='$interval',
             legendFormat='Backfill Toofull',
             range=true,
@@ -1199,7 +1199,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Stuck PGs',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 6, w: 10, x: 14, y: 32 },
         fillOpacity=10,
         pointSize=5,
@@ -1235,7 +1235,7 @@ local u = import 'utils.libsonnet';
       .addTargets([
         u.addTargetSchema(
           expr='sum(ceph_pg_degraded{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           legendFormat='Degraded',
           range=true,
@@ -1243,7 +1243,7 @@ local u = import 'utils.libsonnet';
         ),
         u.addTargetSchema(
           expr='sum(ceph_pg_stale{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           legendFormat='Stale',
           range=true,
@@ -1251,7 +1251,7 @@ local u = import 'utils.libsonnet';
         ),
         u.addTargetSchema(
           expr='sum(ceph_pg_undersized{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           legendFormat='Undersized',
           range=true,
@@ -1261,7 +1261,7 @@ local u = import 'utils.libsonnet';
 
       u.timeSeriesPanel(
         title='Recovery Operations',
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         gridPosition={ h: 6, w: 10, x: 14, y: 38 },
         fillOpacity=10,
         pointSize=5,
@@ -1285,7 +1285,7 @@ local u = import 'utils.libsonnet';
       .addTargets([
         u.addTargetSchema(
           expr='sum(irate(ceph_osd_recovery_ops{}[$interval]))',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           legendFormat='OPS',
           step=300,
@@ -1295,7 +1295,7 @@ local u = import 'utils.libsonnet';
       .addPanels([
         u.heatMapPanel(
           title='OSD Apply Latency Distribution',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 12, x: 0, y: 42 },
           colorMode='opacity',
           legendShow=true,
@@ -1331,13 +1331,13 @@ local u = import 'utils.libsonnet';
           pluginVersion='9.4.7',
         ).addTarget(u.addTargetSchema(
           expr='ceph_osd_apply_latency_ms{}',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           instant=false,
         )),
         u.heatMapPanel(
           title='OSD Commit Latency Distribution',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 12, x: 12, y: 42 },
           colorMode='opacity',
           legendShow=true,
@@ -1380,13 +1380,13 @@ local u = import 'utils.libsonnet';
           pluginVersion='9.4.7',
         ).addTarget(u.addTargetSchema(
           expr='ceph_osd_commit_latency_ms{}',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           instant=false,
         )),
         u.heatMapPanel(
           title='OSD Read Op Latency Distribution',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 12, x: 0, y: 50 },
           colorMode='opacity',
           legendShow=true,
@@ -1430,14 +1430,14 @@ local u = import 'utils.libsonnet';
           pluginVersion='9.4.7',
         ).addTarget(u.addTargetSchema(
           expr='rate(ceph_osd_op_r_latency_sum{}[5m]) / rate(ceph_osd_op_r_latency_count{}[5m]) >= 0',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           instant=false,
         )),
 
         u.heatMapPanel(
           title='OSD Write Op Latency Distribution',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 12, x: 12, y: 50 },
           colorMode='opacity',
           legendShow=true,
@@ -1481,14 +1481,14 @@ local u = import 'utils.libsonnet';
           pluginVersion='9.4.7',
         ).addTarget(u.addTargetSchema(
           expr='rate(ceph_osd_op_w_latency_sum{}[5m]) / rate(ceph_osd_op_w_latency_count{}[5m]) >= 0',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           interval='$interval',
           legendFormat='',
           instant=false,
         )),
         u.timeSeriesPanel(
           title='Recovery Operations',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           gridPosition={ h: 7, w: 12, x: 0, y: 58 },
           fillOpacity=10,
           pointSize=5,
@@ -1512,19 +1512,19 @@ local u = import 'utils.libsonnet';
         .addTargets([
           u.addTargetSchema(
             expr='avg(rate(ceph_osd_op_r_latency_sum{}[5m]) / rate(ceph_osd_op_r_latency_count{}[5m]) >= 0)',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             legendFormat='Read',
           ),
           u.addTargetSchema(
             expr='avg(rate(ceph_osd_op_w_latency_sum{}[5m]) / rate(ceph_osd_op_w_latency_count{}[5m]) >= 0)',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             legendFormat='Write',
           ),
         ]),
 
         u.timeSeriesPanel(
           title='AVG OSD Apply + Commit Latency',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           gridPosition={ h: 7, w: 12, x: 12, y: 58 },
           fillOpacity=10,
           pointSize=5,
@@ -1549,7 +1549,7 @@ local u = import 'utils.libsonnet';
         .addTargets([
           u.addTargetSchema(
             expr='avg(ceph_osd_apply_latency_ms{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             legendFormat='apply',
             interval='$interval',
             metric='ceph_osd_perf_apply_latency_seconds',
@@ -1557,7 +1557,7 @@ local u = import 'utils.libsonnet';
           ),
           u.addTargetSchema(
             expr='avg(ceph_osd_commit_latency_ms{})',
-            datasource='${DS_PROMETHEUS}',
+            datasource='${prometheusds}',
             legendFormat='commit',
             interval='$interval',
             metric='ceph_osd_perf_commit_latency_seconds',
@@ -1569,7 +1569,7 @@ local u = import 'utils.libsonnet';
       u.addRowSchema(collapse=true, showTitle=true, title='', collapsed=false) + { gridPos: { x: 0, y: 45, w: 24, h: 1 } },
 
       u.addTableExtended(
-        datasource='${DS_PROMETHEUS}',
+        datasource='${prometheusds}',
         title='Ceph Versions',
         gridPosition={ h: 6, w: 24, x: 0, y: 46 },
         options={
@@ -1622,7 +1622,7 @@ local u = import 'utils.libsonnet';
       ]).addTargets([
         u.addTargetSchema(
           expr='count by (ceph_version)(ceph_osd_metadata{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           format='table',
           hide=false,
           exemplar=false,
@@ -1633,7 +1633,7 @@ local u = import 'utils.libsonnet';
         ),
         u.addTargetSchema(
           expr='count by (ceph_version)(ceph_mon_metadata{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           format='table',
           hide=false,
           exemplar=false,
@@ -1644,7 +1644,7 @@ local u = import 'utils.libsonnet';
         ),
         u.addTargetSchema(
           expr='count by (ceph_version)(ceph_mds_metadata{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           format='table',
           hide=false,
           exemplar=false,
@@ -1654,7 +1654,7 @@ local u = import 'utils.libsonnet';
         ),
         u.addTargetSchema(
           expr='count by (ceph_version)(ceph_rgw_metadata{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           format='table',
           hide=false,
           exemplar=false,
@@ -1665,7 +1665,7 @@ local u = import 'utils.libsonnet';
         ),
         u.addTargetSchema(
           expr='count by (ceph_version)(ceph_mgr_metadata{})',
-          datasource='${DS_PROMETHEUS}',
+          datasource='${prometheusds}',
           format='table',
           hide=false,
           exemplar=false,
