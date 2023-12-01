@@ -30,7 +30,6 @@ local u = import 'utils.libsonnet';
   ).addRequired(
     type='panel', id='singlestat', name='Singlestat', version='5.0.0'
   ).
-    addTemplate(g.template.datasource('DS_PROMETHEUS', 'prometheus', 'Prometheus', label='Data Source')).
     addTemplate(
     u.addCustomTemplate(
       name='interval',
