@@ -24,9 +24,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       )
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -159,7 +156,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         3
       ),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         '',
         { col: 5, desc: true },
         [
@@ -388,9 +385,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       )
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -398,7 +392,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('pool_name',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_pool_metadata{%(matchers)s}, name)' % $.matchers(),
                           1,
                           false,

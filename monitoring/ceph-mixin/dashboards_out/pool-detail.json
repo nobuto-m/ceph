@@ -52,7 +52,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "format": "percentunit",
          "gauge": {
             "maxValue": 1,
@@ -133,7 +133,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Time till pool is full assuming the average fill rate of the last 6 hours",
          "format": "s",
          "gauge": {
@@ -214,7 +214,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -312,7 +312,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -422,7 +422,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -532,7 +532,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -633,23 +633,9 @@
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "default",
-               "value": "default"
-            },
-            "hide": 0,
-            "label": "Data Source",
-            "name": "datasource",
-            "options": [ ],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "type": "datasource"
-         },
-         {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -669,7 +655,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "job",
@@ -689,7 +675,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": false,
             "label": "Pool Name",

@@ -61,7 +61,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -163,7 +163,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -258,7 +258,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Latencies are shown stacked, without a yaxis to provide a visual indication of GET latency imbalance across RGW hosts",
          "fieldConfig": {
             "defaults": {
@@ -353,7 +353,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Total bytes transferred in/out of all radosgw instances within the cluster",
          "fieldConfig": {
             "defaults": {
@@ -455,7 +455,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Total bytes transferred in/out through get/put operations, by radosgw instance",
          "fieldConfig": {
             "defaults": {
@@ -550,7 +550,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Latencies are shown stacked, without a yaxis to provide a visual indication of PUT latency imbalance across RGW hosts",
          "fieldConfig": {
             "defaults": {
@@ -664,7 +664,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -791,7 +791,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -939,7 +939,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1055,7 +1055,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1185,23 +1185,9 @@
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "default",
-               "value": "default"
-            },
-            "hide": 0,
-            "label": "Data Source",
-            "name": "datasource",
-            "options": [ ],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "type": "datasource"
-         },
-         {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -1221,7 +1207,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "job",
@@ -1241,7 +1227,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "",
@@ -1261,7 +1247,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "HTTP Code",
@@ -1281,7 +1267,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "job haproxy",
@@ -1301,7 +1287,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "Ingress Service",

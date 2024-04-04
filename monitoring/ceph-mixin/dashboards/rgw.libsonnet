@@ -15,7 +15,7 @@ local u = import 'utils.libsonnet';
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [
           $.addTargetSchema(
@@ -54,9 +54,6 @@ local u = import 'utils.libsonnet';
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -65,7 +62,7 @@ local u = import 'utils.libsonnet';
     .addTemplate(
       $.addTemplateSchema(
         'rgw_servers',
-        '$datasource',
+        '${prometheusds}',
         'label_values(ceph_rgw_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
         1,
         true,
@@ -128,7 +125,7 @@ local u = import 'utils.libsonnet';
       y,
       w,
       h,
-      datasource='$datasource',
+      datasource='${prometheusds}',
       legend_alignAsTable=false,
       legend_avg=false,
       legend_min=false,
@@ -188,12 +185,6 @@ local u = import 'utils.libsonnet';
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -202,7 +193,7 @@ local u = import 'utils.libsonnet';
     .addTemplate(
       $.addTemplateSchema(
         'rgw_servers',
-        '$datasource',
+        '${prometheusds}',
         'label_values(ceph_rgw_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
         1,
         true,
@@ -214,7 +205,7 @@ local u = import 'utils.libsonnet';
     .addTemplate(
       $.addTemplateSchema(
         'code',
-        '$datasource',
+        '${prometheusds}',
         'label_values(haproxy_server_http_responses_total{job=~"$job_haproxy", instance=~"$ingress_service"}, code)',
         1,
         true,
@@ -226,7 +217,7 @@ local u = import 'utils.libsonnet';
     .addTemplate(
       $.addTemplateSchema(
         'job_haproxy',
-        '$datasource',
+        '${prometheusds}',
         'label_values(haproxy_server_status, job)',
         1,
         true,
@@ -240,7 +231,7 @@ local u = import 'utils.libsonnet';
     .addTemplate(
       $.addTemplateSchema(
         'ingress_service',
-        '$datasource',
+        '${prometheusds}',
         'label_values(haproxy_server_status{job=~"$job_haproxy"}, instance)',
         1,
         true,
@@ -401,7 +392,7 @@ local u = import 'utils.libsonnet';
         12,
         5,
         12,
-        '$datasource',
+        '${prometheusds}',
         true,
         true,
         true,
@@ -451,7 +442,7 @@ local u = import 'utils.libsonnet';
         12,
         5,
         12,
-        '$datasource',
+        '${prometheusds}',
         true,
         true,
         true,
@@ -542,7 +533,7 @@ local u = import 'utils.libsonnet';
         12,
         5,
         12,
-        '$datasource',
+        '${prometheusds}',
         true,
         true,
         true,
@@ -595,7 +586,7 @@ local u = import 'utils.libsonnet';
         12,
         6,
         12,
-        '$datasource',
+        '${prometheusds}',
         true,
         true,
         true,
@@ -666,7 +657,7 @@ local u = import 'utils.libsonnet';
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '${prometheusds}')
       .addTargets(
         [$.addTargetSchema(expr1, legendFormat1), $.addTargetSchema(expr2, legendFormat2)]
       ) + { type: 'timeseries' } + { fieldConfig: { defaults: { unit: formatY1, custom: { fillOpacity: 8, showPoints: 'never' } } } } + { gridPos: { x: x, y: y, w: w, h: h } };
@@ -705,12 +696,6 @@ local u = import 'utils.libsonnet';
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -718,7 +703,7 @@ local u = import 'utils.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('rgw_servers',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_rgw_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           true,

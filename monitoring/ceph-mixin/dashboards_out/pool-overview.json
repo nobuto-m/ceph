@@ -33,7 +33,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "format": "none",
          "gauge": {
             "maxValue": 100,
@@ -115,7 +115,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Count of the pools that have compression enabled",
          "format": "none",
          "gauge": {
@@ -197,7 +197,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Total raw capacity available to the cluster",
          "format": "bytes",
          "gauge": {
@@ -279,7 +279,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Total raw capacity consumed by user data and associated overheads (metadata + redundancy)",
          "format": "bytes",
          "gauge": {
@@ -362,7 +362,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Total of client data stored in the cluster",
          "format": "bytes",
          "gauge": {
@@ -445,7 +445,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "A compression saving is determined as the data eligible to be compressed minus the capacity used to store the data after compression",
          "format": "bytes",
          "gauge": {
@@ -527,7 +527,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Indicates how suitable the data is within the pools that are/have been enabled for compression - averaged across all pools holding compressed data",
          "format": "percent",
          "gauge": {
@@ -609,7 +609,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "This factor describes the average ratio of data eligible to be compressed divided by the data actually stored. It does not account for data written that was ineligible for compression (too small, or compression yield too low)",
          "format": "none",
          "gauge": {
@@ -684,7 +684,7 @@
       },
       {
          "columns": [ ],
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "",
          "gridPos": {
             "h": 6,
@@ -1159,7 +1159,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "This chart shows the sum of read and write IOPS from all clients by pool",
          "fieldConfig": {
             "defaults": {
@@ -1261,7 +1261,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "The chart shows the sum of read and write bytes from all clients, by pool",
          "fieldConfig": {
             "defaults": {
@@ -1356,7 +1356,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "${prometheusds}",
          "description": "Historical view of capacity usage, to help identify growth and trends in pool consumption",
          "fieldConfig": {
             "defaults": {
@@ -1457,23 +1457,9 @@
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "default",
-               "value": "default"
-            },
-            "hide": 0,
-            "label": "Data Source",
-            "name": "datasource",
-            "options": [ ],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "type": "datasource"
-         },
-         {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -1493,7 +1479,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "${prometheusds}",
             "hide": 0,
             "includeAll": true,
             "label": "job",

@@ -33,12 +33,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       )
     )
     .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -46,7 +40,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('osd_hosts',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_disk_occupation{%(matchers)s}, exported_instance)' % $.matchers(),
                           1,
                           true,
@@ -56,7 +50,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('mon_hosts',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_mon_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           true,
@@ -66,7 +60,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('mds_hosts',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_mds_inodes{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           true,
@@ -76,7 +70,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('rgw_hosts',
-                          '$datasource',
+                          '${prometheusds}',
                           'label_values(ceph_rgw_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           true,
@@ -307,9 +301,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       )
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -317,7 +308,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('ceph_hosts',
-                          '$datasource',
+                          '${prometheusds}',
                           if $._config.showMultiCluster then ('label_values({%(clusterMatcher)s}, instance)' % $.matchers()) else 'label_values(instance)',
                           1,
                           false,
@@ -720,7 +711,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         9
       ),
       $.addTableSchema(
-        '$datasource',
+        '${prometheusds}',
         'This table shows the 10 hosts with the highest number of slow ops',
         { col: 2, desc: true },
         [
