@@ -6,7 +6,7 @@ local info_rbd_stats = std.join(
   [
     'RBD per-image IO statistics are disabled by default.\n\n',
     'Please refer to ',
-    'https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics ',
+    'https://charmhub.io/ceph-mon/configure#rbd-stats-pools ',
     'for information about how to enable those optionally.',
   ]
 );
