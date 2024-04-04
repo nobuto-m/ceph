@@ -1,20 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(ceph
-  VERSION 18.0.0
+  VERSION 19.0.0
   LANGUAGES CXX C ASM)
 
-cmake_policy(SET CMP0028 NEW)
-cmake_policy(SET CMP0046 NEW)
-cmake_policy(SET CMP0048 NEW)
-cmake_policy(SET CMP0051 NEW)
-cmake_policy(SET CMP0054 NEW)
-cmake_policy(SET CMP0056 NEW)
-cmake_policy(SET CMP0065 NEW)
-cmake_policy(SET CMP0074 NEW)
-cmake_policy(SET CMP0075 NEW)
-cmake_policy(SET CMP0093 NEW)
-cmake_policy(SET CMP0094 NEW)
 foreach(policy CMP0127 CMP0135)
   if(POLICY ${policy})
     cmake_policy(SET ${policy} NEW)
@@ -244,13 +233,6 @@ endif()
 
 include(CMakeDependentOption)
 
-CMAKE_DEPENDENT_OPTION(WITH_ZBD "Enable libzbd bluestore backend" OFF
-  "WITH_BLUESTORE" OFF)
-if(WITH_ZBD)
-  find_package(zbd REQUIRED)
-  set(HAVE_LIBZBD ${ZBD_FOUND})
-endif()
-
 CMAKE_DEPENDENT_OPTION(WITH_LIBURING "Enable io_uring bluestore backend" ON
   "WITH_BLUESTORE;HAVE_LIBAIO" OFF)
 set(HAVE_LIBURING ${WITH_LIBURING})
@@ -325,16 +307,45 @@ endif()
 
 option(WITH_BLUEFS "libbluefs library" OFF)
 
-option(WITH_QAT "Enable Qat driver" OFF)
-if(WITH_QAT)
+CMAKE_DEPENDENT_OPTION(WITH_QATLIB "Enable QAT with qatlib" ON
+  "NOT CMAKE_SYSTEM_PROCESSOR MATCHES aarch64" OFF)
+option(WITH_SYSTEM_QATLIB "Use system packages for qatlib" OFF)
+option(WITH_QATDRV "Enable QAT with out-of-tree driver" OFF)
+CMAKE_DEPENDENT_OPTION(WITH_QATZIP "Enable QATzip" ON
+  "NOT CMAKE_SYSTEM_PROCESSOR MATCHES aarch64" OFF)
+option(WITH_SYSTEM_QATZIP "Use system packages for QATzip" OFF)
+
+if(WITH_QATDRV)
   find_package(QatDrv REQUIRED COMPONENTS qat_s usdm_drv_s)
-  set(HAVE_QATDRV $(QatDrv_FOUND))
+  set(HAVE_QAT TRUE)
+elseif(WITH_QATLIB)
+  if(NOT WITH_SYSTEM_QAT)
+    include(BuildQAT)
+    build_qat()
+  endif()
+  find_package(QAT REQUIRED)
+  if(NOT WITH_SYSTEM_QAT)
+    add_dependencies(QAT::qat qatlib_ext)
+    add_dependencies(QAT::usdm qatlib_ext)
+  endif()
+  set(HAVE_QAT TRUE)
 endif()
 
-option(WITH_QATZIP "Enable QATZIP" OFF)
 if(WITH_QATZIP)
-  find_package(qatzip REQUIRED)
-  set(HAVE_QATZIP ${qatzip_FOUND})
+  if(NOT HAVE_QAT)
+    message(FATAL_ERROR "WITH_QATZIP requires WITH_QATLIB or WITH_QATDRV")
+  endif()
+  if(NOT WITH_SYSTEM_QATZIP)
+    include(BuildQATzip)
+    build_qatzip()
+    # qatzip build depends on qatlib
+    add_dependencies(qatzip_ext QAT::qat)
+  endif()
+  find_package(QATzip REQUIRED)
+  if(NOT WITH_SYSTEM_QATZIP)
+    add_dependencies(QAT::zip qatzip_ext)
+  endif()
+  set(HAVE_QATZIP TRUE)
 endif(WITH_QATZIP)
 
 # needs mds and? XXX
@@ -597,7 +608,7 @@ option(PG_DEBUG_REFS "PG Ref debugging is enabled" OFF)
 
 option(WITH_TESTS "enable the build of ceph-test package scripts/binaries" ON)
 set(UNIT_TESTS_BUILT ${WITH_TESTS})
-set(CEPH_TEST_TIMEOUT 3600 CACHE STRING 
+set(CEPH_TEST_TIMEOUT 7200 CACHE STRING
   "Maximum time before a CTest gets killed" )
 
 # fio
@@ -703,7 +714,7 @@ else()
 endif()
 include_directories(BEFORE SYSTEM ${Boost_INCLUDE_DIRS})
 
-if(Boost_VERSION VERSION_EQUAL 1.81 OR Boost_VERSION VERSION_EQUAL 1.82)
+if(Boost_VERSION VERSION_LESS 1.84)
   # This is a workaround for https://github.com/boostorg/phoenix/issues/111
   add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-DBOOST_PHOENIX_STL_TUPLE_H_>)
 endif()
@@ -717,7 +728,7 @@ if(WITH_SYSTEM_NPM)
     message(FATAL_ERROR "Can't find npm.")
   endif()
 endif()
-set(DASHBOARD_FRONTEND_LANGS "" CACHE STRING
+set(DASHBOARD_FRONTEND_LANGS "ALL" CACHE STRING
   "List of comma separated ceph-dashboard frontend languages to build. \
   Use value `ALL` to build all languages")
 CMAKE_DEPENDENT_OPTION(WITH_MGR_ROOK_CLIENT "Enable the mgr's Rook support" ON
