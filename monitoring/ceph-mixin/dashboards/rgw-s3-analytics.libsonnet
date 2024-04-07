@@ -25,12 +25,8 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
 
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-
-    .addTemplate(
       $.addTemplateSchema('rgw_servers',
-                          '$datasource',
+                          '$prometheusds',
                           'label_values(ceph_rgw_metadata{}, ceph_daemon)',
                           2,
                           true,
@@ -40,7 +36,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
 
     .addTemplate(
-      g.template.adhoc('Filters', '$datasource', 'filters', 0)
+      g.template.adhoc('Filters', '$prometheusds', 'filters', 0)
     )
 
 
@@ -48,7 +44,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       $.addRowSchema(false, true, 'Overview') + { gridPos: { x: 0, y: 0, w: 24, h: 1 } },
       $.addStatPanel(
         title='Total PUTs',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 0, y: 1, w: 6, h: 3 },
         graphMode='none',
         colorMode='none',
@@ -64,7 +60,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_put_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='__auto',
           range=true
         ),
@@ -72,7 +68,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
       $.addStatPanel(
         title='Total GETs',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 6, y: 1, w: 6, h: 3 },
         graphMode='none',
         colorMode='none',
@@ -88,7 +84,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum\n(ceph_rgw_op_get_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='__auto',
           range=true
         ),
@@ -96,7 +92,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
       $.addStatPanel(
         title='Total Objects',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 12, y: 1, w: 6, h: 3 },
         graphMode='none',
         colorMode='none',
@@ -112,7 +108,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_put_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='__auto',
           range=true
         ),
@@ -120,7 +116,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
       $.addStatPanel(
         title='Average Object Size',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 18, y: 1, w: 6, h: 3 },
         graphMode='none',
         colorMode='none',
@@ -136,7 +132,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum\n((sum by(instance_id)(ceph_rgw_op_put_obj_bytes) > 0) / (sum by(instance_id)(ceph_rgw_op_put_obj_ops) > 0) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='__auto',
           range=true
         ),
@@ -144,7 +140,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
       $.addBarGaugePanel(
         title='Total Operations',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 0, y: 4, w: 8, h: 8 },
         unit='none',
         thresholds={ color: 'green', value: null }
@@ -152,48 +148,48 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_list_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='List Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_list_buckets_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='List Buckets',
           range=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_put_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Put Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_per_bucket_get_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Get Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_del_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Delete Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_del_bucket_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Delete Buckets',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_copy_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Copy Objects',
           range=true
         ),
@@ -203,7 +199,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
       $.addBarGaugePanel(
         title='Total Size',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 8, y: 4, w: 8, h: 8 },
         unit='none',
         thresholds={ color: 'green', value: null }
@@ -211,28 +207,28 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_put_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Put Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_per_bucket_get_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Get Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_del_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Delete Objects',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_copy_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Copy Objects',
           range=true
         ),
@@ -241,7 +237,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
       $.addBarGaugePanel(
         title='Total Latencies',
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         gridPosition={ x: 16, y: 4, w: 8, h: 8 },
         unit='none',
         thresholds={ color: 'green', value: null }
@@ -249,48 +245,48 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addTargets([
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_list_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='List Object',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_list_buckets_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='List Bucket',
           range=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_put_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Put Object',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_get_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Get Object',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_del_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Delete Object',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_del_bucket_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Delete Bucket',
           range=false,
           instant=true
         ),
         $.addTargetSchema(
           expr='sum(ceph_rgw_op_copy_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           legendFormat='Copy Object',
           range=true
         ),
@@ -299,7 +295,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Summary Per Bucket by Bandwidth',
         gridPosition={ h: 8, w: 12, x: 0, y: 12 },
         options={
@@ -444,7 +440,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       ]).addTargets([
         $.addTargetSchema(
           expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_put_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -455,7 +451,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_get_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -466,7 +462,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_del_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -477,7 +473,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_copy_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -490,7 +486,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Latency(ms) Per Bucket',
         gridPosition={ h: 8, w: 12, x: 12, y: 12 },
         options={
@@ -647,7 +643,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       ]).addTargets([
         $.addTargetSchema(
           expr='ceph_rgw_op_per_bucket_list_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -658,7 +654,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_bucket_put_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -669,7 +665,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_bucket_get_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -680,7 +676,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_bucket_del_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -691,7 +687,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_bucket_copy_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -704,7 +700,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Summary Per User By Bandwidth',
         gridPosition={ h: 8, w: 12, x: 0, y: 20 },
         options={
@@ -851,7 +847,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       ]).addTargets([
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_put_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -862,7 +858,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_get_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -873,7 +869,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_del_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -884,7 +880,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_copy_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -897,7 +893,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Latency(ms) Per User',
         gridPosition={ h: 8, w: 12, x: 12, y: 20 },
         options={
@@ -1054,7 +1050,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       ]).addTargets([
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_list_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -1065,7 +1061,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_put_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -1076,7 +1072,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_get_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -1087,7 +1083,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_del_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -1098,7 +1094,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ),
         $.addTargetSchema(
           expr='ceph_rgw_op_per_user_copy_obj_lat_sum *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"}',
-          datasource={ type: 'prometheus', uid: '${datasource}' },
+          datasource={ type: 'prometheus', uid: '${prometheusds}' },
           format='table',
           hide=false,
           exemplar=false,
@@ -1114,7 +1110,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addPanels([
         $.addBarGaugePanel(
           title='Top 5 Bucket PUTs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 0, y: 29, w: 6, h: 8 },
           unit='none',
           thresholds={ color: 'green', value: null }
@@ -1122,7 +1118,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5, \n    sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_put_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{bucket}}',
             range=false,
             instant=true
@@ -1133,7 +1129,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
         $.addBarGaugePanel(
           title='Top 5 Bucket GETs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 6, y: 29, w: 6, h: 8 },
           unit='none',
           thresholds={ color: 'green', value: null }
@@ -1141,7 +1137,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5, \n    sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_get_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{bucket}}',
             range=false,
             instant=true
@@ -1152,7 +1148,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
         $.addBarGaugePanel(
           title='Top 5 Buckets PUTs By Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 12, y: 29, w: 6, h: 8 },
           unit='decbytes',
           thresholds={ color: 'green', value: null }
@@ -1160,7 +1156,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5,\n    sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_put_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{bucket}}',
             range=false,
             instant=true
@@ -1171,7 +1167,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
         $.addBarGaugePanel(
           title='Top 5 Buckets GETs By Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 18, y: 29, w: 6, h: 8 },
           unit='decbytes',
           thresholds={ color: 'green', value: null }
@@ -1179,7 +1175,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5,\n    sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_get_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{bucket}}',
             range=false,
             instant=true
@@ -1194,7 +1190,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket PUTs by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 0, y: 37 },
           fillOpacity=0,
           pointSize=5,
@@ -1221,7 +1217,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_put_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1238,7 +1234,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket GETs by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 6, y: 37 },
           fillOpacity=0,
           pointSize=5,
@@ -1265,7 +1261,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_get_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1282,7 +1278,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket Copy by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 12, y: 37 },
           fillOpacity=0,
           pointSize=5,
@@ -1309,7 +1305,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_copy_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1326,7 +1322,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket Delete by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 18, y: 37 },
           fillOpacity=0,
           pointSize=5,
@@ -1353,7 +1349,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_del_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1370,7 +1366,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket GETs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 0, y: 45 },
           fillOpacity=0,
           pointSize=5,
@@ -1397,7 +1393,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_get_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1414,7 +1410,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket PUTs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 6, y: 45 },
           fillOpacity=0,
           pointSize=5,
@@ -1441,7 +1437,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_put_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1458,7 +1454,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket List by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 12, y: 45 },
           fillOpacity=0,
           pointSize=5,
@@ -1485,7 +1481,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_list_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1502,7 +1498,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket Delete by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 18, y: 45 },
           fillOpacity=0,
           pointSize=5,
@@ -1529,7 +1525,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_del_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1546,7 +1542,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='Bucket Copy by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 12, x: 0, y: 53 },
           fillOpacity=0,
           pointSize=5,
@@ -1573,7 +1569,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (bucket, ceph_daemon) ((ceph_rgw_op_per_bucket_copy_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{bucket}}',
@@ -1585,7 +1581,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
 
         $.addTableExtended(
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           title='Summary Per Bucket by Operations',
           gridPosition={ h: 8, w: 12, x: 12, y: 53 },
           options={
@@ -1742,7 +1738,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ]).addTargets([
           $.addTargetSchema(
             expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_put_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -1753,7 +1749,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_get_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -1764,7 +1760,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_del_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -1775,7 +1771,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_copy_obj_bytes *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -1786,7 +1782,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (bucket, ceph_daemon) (ceph_rgw_op_per_bucket_list_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -1803,7 +1799,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       .addPanels([
         $.addBarGaugePanel(
           title='Top 5 Users PUTs By Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 0, y: 62, w: 6, h: 8 },
           unit='none',
           thresholds={ color: 'green' }
@@ -1811,7 +1807,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5, \n    sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_put_obj_ops ) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)\n',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{user}}',
             range=false,
             instant=true
@@ -1822,7 +1818,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
         $.addBarGaugePanel(
           title='Top 5 Users GETs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 6, y: 62, w: 6, h: 8 },
           unit='none',
           thresholds={ color: 'green', value: null }
@@ -1830,7 +1826,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5, \n    sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_get_obj_ops ) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)\n',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{user}}',
             range=false,
             instant=true
@@ -1841,7 +1837,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
         $.addBarGaugePanel(
           title='Top 5 Users PUTs by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 12, y: 62, w: 6, h: 8 },
           unit='decbytes',
           thresholds={ color: 'green', value: null }
@@ -1849,7 +1845,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5, \n    sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_put_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{user}}',
             range=false,
             instant=true
@@ -1860,7 +1856,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
         $.addBarGaugePanel(
           title='Top 5 Users GETs By Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ x: 18, y: 62, w: 6, h: 8 },
           unit='decbytes',
           thresholds={ color: 'green', value: null }
@@ -1868,7 +1864,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         .addTargets([
           $.addTargetSchema(
             expr='topk(5, \n    sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_get_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})\n)',
-            datasource='${datasource}',
+            datasource='${prometheusds}',
             legendFormat='{{ceph_daemon}} - {{user}}',
             range=false,
             instant=true
@@ -1883,7 +1879,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User PUTs by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 0, y: 70 },
           fillOpacity=0,
           pointSize=5,
@@ -1910,7 +1906,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_put_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -1927,7 +1923,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User GETs by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 6, y: 70 },
           fillOpacity=0,
           pointSize=5,
@@ -1954,7 +1950,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_get_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -1971,7 +1967,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User Delete by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 12, y: 70 },
           fillOpacity=0,
           pointSize=5,
@@ -1998,7 +1994,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_del_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2015,7 +2011,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User COPY by Size',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 18, y: 70 },
           fillOpacity=0,
           pointSize=5,
@@ -2042,7 +2038,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_copy_obj_bytes) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2059,7 +2055,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User GETs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 0, y: 78 },
           fillOpacity=0,
           pointSize=5,
@@ -2086,7 +2082,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_get_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2103,7 +2099,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User PUTs by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 6, y: 78 },
           fillOpacity=0,
           pointSize=5,
@@ -2130,7 +2126,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_put_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2147,7 +2143,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User List by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 12, y: 78 },
           fillOpacity=0,
           pointSize=5,
@@ -2174,7 +2170,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_list_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2191,7 +2187,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User Delete by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 6, x: 18, y: 78 },
           fillOpacity=0,
           pointSize=5,
@@ -2218,7 +2214,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_del_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2235,7 +2231,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           drawStyle='line',
           axisPlacement='auto',
           title='User Copy by Operations',
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           gridPosition={ h: 8, w: 12, x: 0, y: 86 },
           fillOpacity=0,
           pointSize=5,
@@ -2262,7 +2258,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           [
             $.addTargetSchema(
               expr='sum by (user, ceph_daemon) ((ceph_rgw_op_per_user_copy_obj_ops) *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-              datasource='${datasource}',
+              datasource='${prometheusds}',
               format='time_series',
               instant=false,
               legendFormat='{{ceph_daemon}} - {{user}}',
@@ -2274,7 +2270,7 @@ local g = import 'grafonnet/grafana.libsonnet';
 
 
         $.addTableExtended(
-          datasource='${datasource}',
+          datasource='${prometheusds}',
           title='Summary Per User By Operations',
           gridPosition={ h: 8, w: 12, x: 12, y: 86 },
           options={
@@ -2387,7 +2383,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         ]).addTargets([
           $.addTargetSchema(
             expr='sum by (user, ceph_daemon) (ceph_rgw_op_per_user_put_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -2398,7 +2394,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (user, ceph_daemon) (ceph_rgw_op_per_user_get_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -2409,7 +2405,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (user, ceph_daemon) (ceph_rgw_op_per_user_del_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -2420,7 +2416,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (user, ceph_daemon) (ceph_rgw_op_per_user_copy_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,
@@ -2431,7 +2427,7 @@ local g = import 'grafonnet/grafana.libsonnet';
           ),
           $.addTargetSchema(
             expr='sum by (user, ceph_daemon) (ceph_rgw_op_per_user_list_obj_ops *\n    on (instance_id) group_left (ceph_daemon) ceph_rgw_metadata{ceph_daemon=~"$rgw_servers"})',
-            datasource={ type: 'prometheus', uid: '${datasource}' },
+            datasource={ type: 'prometheus', uid: '${prometheusds}' },
             format='table',
             hide=false,
             exemplar=false,

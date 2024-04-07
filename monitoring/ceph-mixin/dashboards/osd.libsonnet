@@ -37,9 +37,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       type='panel', id='table', name='Table', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -92,7 +89,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       ),
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Highest READ Latencies',
         gridPosition={ h: 8, w: 4, x: 8, y: 0 },
         options={
@@ -219,7 +216,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       ),
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Highest WRITE Latencies',
         description="This table shows the osd's that are delivering the 10 highest write latencies within the cluster",
         gridPosition={ h: 8, w: 4, x: 20, y: 0 },
@@ -308,18 +305,18 @@ local g = import 'grafonnet/grafana.libsonnet';
         )
       ),
 
-      $.pieChartPanel('OSD Types Summary', '', '$datasource', { x: 0, y: 8, w: 4, h: 8 }, 'table', 'bottom', true, ['percent'], { mode: 'single', sort: 'none' }, 'pie', ['percent', 'value'], 'palette-classic')
+      $.pieChartPanel('OSD Types Summary', '', '$prometheusds', { x: 0, y: 8, w: 4, h: 8 }, 'table', 'bottom', true, ['percent'], { mode: 'single', sort: 'none' }, 'pie', ['percent', 'value'], 'palette-classic')
       .addTarget(
         $.addTargetSchema('count by (device_class) (ceph_osd_metadata{%(matchers)s})' % $.matchers(), '{{device_class}}')
       ),
-      $.pieChartPanel('OSD Objectstore Types', '', '$datasource', { x: 4, y: 8, w: 4, h: 8 }, 'table', 'bottom', true, ['percent'], { mode: 'single', sort: 'none' }, 'pie', ['percent', 'value'], 'palette-classic')
+      $.pieChartPanel('OSD Objectstore Types', '', '$prometheusds', { x: 4, y: 8, w: 4, h: 8 }, 'table', 'bottom', true, ['percent'], { mode: 'single', sort: 'none' }, 'pie', ['percent', 'value'], 'palette-classic')
       .addTarget($.addTargetSchema(
         'count(ceph_bluefs_wal_total_bytes{%(matchers)s})' % $.matchers(), 'bluestore', 'time_series', 2
       ))
       .addTarget($.addTargetSchema(
         'absent(ceph_bluefs_wal_total_bytes{job=~"$job"}) * count(ceph_osd_metadata{job=~"$job"})' % $.matchers(), 'filestore', 'time_series', 2
       )),
-      $.pieChartPanel('OSD Size Summary', 'The pie chart shows the various OSD sizes used within the cluster', '$datasource', { x: 8, y: 8, w: 4, h: 8 }, 'table', 'bottom', true, ['percent'], { mode: 'single', sort: 'none' }, 'pie', ['percent', 'value'], 'palette-classic')
+      $.pieChartPanel('OSD Size Summary', 'The pie chart shows the various OSD sizes used within the cluster', '$prometheusds', { x: 8, y: 8, w: 4, h: 8 }, 'table', 'bottom', true, ['percent'], { mode: 'single', sort: 'none' }, 'pie', ['percent', 'value'], 'palette-classic')
       .addTarget($.addTargetSchema(
         'count(ceph_osd_stat_bytes{%(matchers)s} < 1099511627776)' % $.matchers(), '<1TB', 'time_series', 2
       ))
@@ -348,7 +345,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         'count(ceph_osd_stat_bytes{%(matchers)s} >= 13194139533312)' % $.matchers(), '<12TB+', 'time_series', 2
       )),
       g.graphPanel.new(bars=true,
-                       datasource='$datasource',
+                       datasource='$prometheusds',
                        title='Distribution of PGs per OSD',
                        x_axis_buckets=20,
                        x_axis_mode='histogram',
@@ -405,7 +402,7 @@ local g = import 'grafonnet/grafana.libsonnet';
       )]),
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Top Slow Ops',
         description='This table shows the 10 OSDs with the highest number of slow ops',
         gridPosition={ h: 8, w: 5, x: 0, y: 25 },
@@ -509,7 +506,7 @@ local g = import 'grafonnet/grafana.libsonnet';
                          null,
                          null,
                          1,
-                         '$datasource')
+                         '$prometheusds')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -546,12 +543,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource',
-                            'prometheus',
-                            'default',
-                            label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -559,7 +550,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('osd',
-                          '$datasource',
+                          '$prometheusds',
                           'label_values(ceph_osd_metadata{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           false,
@@ -758,7 +749,7 @@ local g = import 'grafonnet/grafana.libsonnet';
         null,
         null,
         1,
-        '$datasource'
+        '$prometheusds'
       )
       .addTarget($.addTargetSchema(
         |||
