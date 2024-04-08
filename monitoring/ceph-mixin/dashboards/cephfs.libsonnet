@@ -30,9 +30,6 @@ local g = import 'grafonnet/grafana.libsonnet';
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -40,7 +37,7 @@ local g = import 'grafonnet/grafana.libsonnet';
     )
     .addTemplate(
       $.addTemplateSchema('mds_servers',
-                          '$datasource',
+                          '$prometheusds',
                           'label_values(ceph_mds_inodes{%(matchers)s}, ceph_daemon)' % $.matchers(),
                           1,
                           true,

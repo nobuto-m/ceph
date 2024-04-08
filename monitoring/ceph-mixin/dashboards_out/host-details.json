@@ -71,7 +71,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "format": "none",
          "gauge": {
             "maxValue": 100,
@@ -154,7 +154,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "Shows the CPU breakdown. When multiple servers are selected, only the first host's cpu data is shown",
          "fieldConfig": {
             "defaults": {
@@ -256,7 +256,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -380,7 +380,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "Show the network load (rx,tx) across all interfaces (excluding loopback 'lo')",
          "fieldConfig": {
             "defaults": {
@@ -487,7 +487,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -598,7 +598,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "Each OSD consists of a Journal/WAL partition and a data partition. The RAW Capacity shown is the sum of the data partitions across all OSDs on the selected OSD hosts.",
          "format": "bytes",
          "gauge": {
@@ -676,7 +676,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -802,7 +802,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "For any OSD devices on the host, this chart shows the iops per physical device. Each device is shown by it's name and corresponding OSD id value",
          "fieldConfig": {
             "defaults": {
@@ -909,7 +909,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "For OSD hosts, this chart shows the disk bandwidth (read bytes/sec + write bytes/sec) of the physical OSD device. Each device is shown by device name, and corresponding OSD id",
          "fieldConfig": {
             "defaults": {
@@ -1016,7 +1016,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "For OSD hosts, this chart shows the latency at the physical drive. Each drive is shown by device name, with it's corresponding OSD id",
          "fieldConfig": {
             "defaults": {
@@ -1111,7 +1111,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
+         "datasource": "$prometheusds",
          "description": "Show disk utilization % (util) of any OSD devices on the host by the physical device name and associated OSD id.",
          "fieldConfig": {
             "defaults": {
@@ -1203,7 +1203,7 @@
       },
       {
          "columns": [ ],
-         "datasource": "${datasource}",
+         "datasource": "${prometheusds}",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -1343,23 +1343,9 @@
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "default",
-               "value": "default"
-            },
-            "hide": 0,
-            "label": "Data Source",
-            "name": "datasource",
-            "options": [ ],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "type": "datasource"
-         },
-         {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -1379,7 +1365,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 0,
             "includeAll": true,
             "label": "job",
@@ -1399,7 +1385,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 0,
             "includeAll": false,
             "label": "Hostname",
