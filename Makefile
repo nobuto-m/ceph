@@ -8,6 +8,7 @@ minimize:
 	# delete the top level files such as COPYING
 	# https://github.com/canonical/cos-configuration-k8s-operator/issues/75
 	find . -mindepth 1 -maxdepth 1 -type d ! -regex './\(\.git\|\.github\|monitoring\)' -exec rm -r {} \;
+	rm -f .gitmodules
 
 .PHONY: fork-for-cos
 fork-for-cos: minimize
