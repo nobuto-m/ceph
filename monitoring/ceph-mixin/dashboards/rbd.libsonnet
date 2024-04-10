@@ -6,7 +6,7 @@ local info_rbd_stats = std.join(
   [
     'RBD per-image IO statistics are disabled by default.\n\n',
     'Please refer to ',
-    'https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics ',
+    'https://charmhub.io/ceph-mon/configure#rbd-stats-pools ',
     'for information about how to enable those optionally.',
   ]
 );
@@ -25,7 +25,7 @@ local info_rbd_stats = std.join(
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '$prometheusds')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -62,9 +62,6 @@ local info_rbd_stats = std.join(
       type='panel', id='graph', name='Graph', version='5.0.0'
     )
     .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
-    )
-    .addTemplate(
       $.addClusterTemplate()
     )
     .addTemplate(
@@ -72,7 +69,7 @@ local info_rbd_stats = std.join(
     )
     .addTemplate(
       $.addTemplateSchema('pool',
-                          '$datasource',
+                          '$prometheusds',
                           'label_values(pool)',
                           1,
                           false,
@@ -82,7 +79,7 @@ local info_rbd_stats = std.join(
     )
     .addTemplate(
       $.addTemplateSchema('image',
-                          '$datasource',
+                          '$prometheusds',
                           'label_values(image)',
                           1,
                           false,
@@ -155,7 +152,7 @@ local info_rbd_stats = std.join(
                          null,
                          0,
                          1,
-                         '$datasource')
+                         '$prometheusds')
       .addTargets(
         [
           $.addTargetSchema(expr1,
@@ -197,9 +194,6 @@ local info_rbd_stats = std.join(
     )
     .addRequired(
       type='panel', id='table', name='Table', version='5.0.0'
-    )
-    .addTemplate(
-      g.template.datasource('datasource', 'prometheus', 'default', label='Data Source')
     )
     .addTemplate(
       $.addClusterTemplate()
@@ -259,9 +253,9 @@ local info_rbd_stats = std.join(
       ),
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Highest IOPS',
-        description='RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics for information about how to enable those optionally.',
+        description='RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://charmhub.io/ceph-mon/configure#rbd-stats-pools for information about how to enable those optionally.',
         gridPosition={ h: 7, w: 8, x: 0, y: 7 },
         options={
           footer: {
@@ -338,9 +332,9 @@ local info_rbd_stats = std.join(
       ),
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Highest Throughput',
-        description='RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics for information about how to enable those optionally.',
+        description='RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://charmhub.io/ceph-mon/configure#rbd-stats-pools for information about how to enable those optionally.',
         gridPosition={ h: 7, w: 8, x: 8, y: 7 },
         options={
           footer: {
@@ -417,9 +411,9 @@ local info_rbd_stats = std.join(
       ),
 
       $.addTableExtended(
-        datasource='${datasource}',
+        datasource='${prometheusds}',
         title='Highest Latency',
-        description='RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics for information about how to enable those optionally.',
+        description='RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://charmhub.io/ceph-mon/configure#rbd-stats-pools for information about how to enable those optionally.',
         gridPosition={ h: 7, w: 8, x: 16, y: 7 },
         options={
           footer: {

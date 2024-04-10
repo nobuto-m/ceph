@@ -42,8 +42,8 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
-         "description": "RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics for information about how to enable those optionally.",
+         "datasource": "$prometheusds",
+         "description": "RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://charmhub.io/ceph-mon/configure#rbd-stats-pools for information about how to enable those optionally.",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -144,8 +144,8 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
-         "description": "RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics for information about how to enable those optionally.",
+         "datasource": "$prometheusds",
+         "description": "RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://charmhub.io/ceph-mon/configure#rbd-stats-pools for information about how to enable those optionally.",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -246,8 +246,8 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "$datasource",
-         "description": "RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://docs.ceph.com/en/latest/mgr/prometheus/#rbd-io-statistics for information about how to enable those optionally.",
+         "datasource": "$prometheusds",
+         "description": "RBD per-image IO statistics are disabled by default.\n\nPlease refer to https://charmhub.io/ceph-mon/configure#rbd-stats-pools for information about how to enable those optionally.",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -354,23 +354,9 @@
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "default",
-               "value": "default"
-            },
-            "hide": 0,
-            "label": "Data Source",
-            "name": "datasource",
-            "options": [ ],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "type": "datasource"
-         },
-         {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 2,
             "includeAll": true,
             "label": "cluster",
@@ -390,7 +376,7 @@
          {
             "allValue": ".+",
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 0,
             "includeAll": true,
             "label": "job",
@@ -410,7 +396,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 0,
             "includeAll": false,
             "label": "",
@@ -430,7 +416,7 @@
          {
             "allValue": null,
             "current": { },
-            "datasource": "$datasource",
+            "datasource": "$prometheusds",
             "hide": 0,
             "includeAll": false,
             "label": "",

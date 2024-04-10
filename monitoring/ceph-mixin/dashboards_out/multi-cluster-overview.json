@@ -45,7 +45,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -163,7 +163,7 @@
          "pluginVersion": "9.4.7",
          "targets": [
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "expr": "count(ceph_health_status==0) or vector(0)",
                "format": "time_series",
                "intervalFactor": 1,
@@ -171,7 +171,7 @@
                "refId": "A"
             },
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "expr": "count(ceph_health_status==1)",
                "format": "time_series",
                "intervalFactor": 1,
@@ -179,7 +179,7 @@
                "refId": "B"
             },
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "expr": "count(ceph_health_status==2)",
                "format": "time_series",
                "intervalFactor": 1,
@@ -193,7 +193,7 @@
       },
       {
          "columns": [ ],
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -294,7 +294,7 @@
                         "value": [
                            {
                               "title": "",
-                              "url": "/d/GQ3MHvnIz/ceph-cluster-new?var-cluster=${__data.fields.Cluster}&${DS_PROMETHEUS:queryparam}"
+                              "url": "/d/GQ3MHvnIz/ceph-cluster-new?var-cluster=${__data.fields.Cluster}&${prometheusds:queryparam}"
                            }
                         ]
                      }
@@ -352,7 +352,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "ceph_health_status",
@@ -368,7 +368,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "ceph_mgr_metadata",
@@ -384,7 +384,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "count(ALERTS{alertstate=\"firing\", cluster=~\"$Cluster\"})",
@@ -400,7 +400,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum by (cluster) (irate(ceph_pool_wr[$__interval]))  \n+ sum by (cluster) (irate(ceph_pool_rd[$__interval])) ",
@@ -416,7 +416,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum by (cluster) (irate(ceph_pool_rd_bytes[$__interval]))\n+ sum by (cluster) (irate(ceph_pool_wr_bytes[$__interval])) ",
@@ -432,7 +432,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "ceph_cluster_by_class_total_used_bytes",
@@ -550,7 +550,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -600,7 +600,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "count(ceph_health_status{cluster=~\"$Cluster\"}) or vector(0)",
@@ -619,7 +619,7 @@
          "type": "stat"
       },
       {
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -671,7 +671,7 @@
          "pluginVersion": "9.4.7",
          "targets": [
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "expr": "sum(ceph_cluster_total_used_bytes{cluster=~\"$Cluster\"}) / sum(ceph_cluster_total_bytes{cluster=~\"$Cluster\"})",
                "format": "time_series",
                "instant": true,
@@ -686,7 +686,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -732,7 +732,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(ceph_cluster_total_bytes{cluster=~\"$Cluster\"})",
@@ -752,7 +752,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -798,7 +798,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "count(ceph_osd_metadata{cluster=~\"$Cluster\"})",
@@ -818,7 +818,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -864,7 +864,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "count(sum by (hostname) (ceph_osd_metadata{cluster=~\"$Cluster\"}))",
@@ -884,7 +884,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -930,7 +930,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(irate(ceph_pool_wr{cluster=~\"$Cluster\"}[$__interval]))",
@@ -945,7 +945,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(irate(ceph_pool_rd{cluster=~\"$Cluster\"}[$__interval]))",
@@ -963,7 +963,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1009,7 +1009,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "avg(ceph_osd_apply_latency_ms{cluster=~\"$Cluster\"})",
@@ -1024,7 +1024,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "avg(ceph_osd_commit_latency_ms{cluster=~\"$Cluster\"})",
@@ -1042,7 +1042,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1092,7 +1092,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "count(ALERTS{alertstate=\"firing\", cluster=~\"$Cluster\"}) or vector(0)",
@@ -1112,7 +1112,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1158,7 +1158,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(ceph_cluster_total_used_bytes{cluster=~\"$Cluster\"})",
@@ -1178,7 +1178,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1224,7 +1224,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "predict_linear(avg(increase(ceph_cluster_total_used_bytes{cluster=~\"${Cluster}\"}[1d]))[7d:1h],120)",
@@ -1242,7 +1242,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1288,7 +1288,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "count(ceph_pool_metadata{cluster=~\"$Cluster\"})",
@@ -1308,7 +1308,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1354,7 +1354,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(irate(ceph_pool_rd_bytes{cluster=~\"$Cluster\"}[$__interval]))",
@@ -1369,7 +1369,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(irate(ceph_pool_wr_bytes{cluster=~\"$Cluster\"}[$__interval]))",
@@ -1387,7 +1387,7 @@
       },
       {
          "colors": null,
-         "datasource": "${DS_PROMETHEUS}",
+         "datasource": "${prometheusds}",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -1433,7 +1433,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "${DS_PROMETHEUS}"
+                  "uid": "${prometheusds}"
                },
                "exemplar": false,
                "expr": "sum(irate(ceph_osd_recovery_ops{cluster=~\"$Cluster\"}[$__interval]))",
@@ -1463,7 +1463,7 @@
          "panels": [
             {
                "colors": null,
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "description": "",
                "fieldConfig": {
                   "defaults": {
@@ -1557,7 +1557,7 @@
                "pluginVersion": "9.4.7",
                "targets": [
                   {
-                     "datasource": "${DS_PROMETHEUS}",
+                     "datasource": "${prometheusds}",
                      "expr": "count(ALERTS{alertstate=\"firing\",severity=\"critical\", cluster=~\"$Cluster\"}) OR vector(0)",
                      "format": "time_series",
                      "instant": true,
@@ -1567,7 +1567,7 @@
                      "refId": "A"
                   },
                   {
-                     "datasource": "${DS_PROMETHEUS}",
+                     "datasource": "${prometheusds}",
                      "expr": "count(ALERTS{alertstate=\"firing\",severity=\"warning\", cluster=~\"$Cluster\"}) OR vector(0)",
                      "format": "time_series",
                      "instant": true,
@@ -1583,7 +1583,7 @@
             },
             {
                "columns": [ ],
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -1642,7 +1642,7 @@
                   {
                      "datasource": {
                         "type": "prometheus",
-                        "uid": "${DS_PROMETHEUS}"
+                        "uid": "${prometheusds}"
                      },
                      "exemplar": false,
                      "expr": "ALERTS{alertstate=\"firing\", cluster=~\"$Cluster\"}",
@@ -1760,7 +1760,7 @@
          "id": 23,
          "panels": [
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "fieldConfig": {
                   "defaults": {
                      "color": {
@@ -1835,7 +1835,7 @@
                "pluginVersion": "9.1.3",
                "targets": [
                   {
-                     "datasource": "${DS_PROMETHEUS}",
+                     "datasource": "${prometheusds}",
                      "expr": "topk(5, ceph_cluster_total_used_bytes/ceph_cluster_total_bytes)",
                      "format": "time_series",
                      "instant": false,
@@ -1850,7 +1850,7 @@
                "type": "timeseries"
             },
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "fieldConfig": {
                   "defaults": {
                      "color": {
@@ -1925,7 +1925,7 @@
                "pluginVersion": "9.1.3",
                "targets": [
                   {
-                     "datasource": "${DS_PROMETHEUS}",
+                     "datasource": "${prometheusds}",
                      "expr": "topk(10, sum by (cluster) (irate(ceph_osd_op_w[$__interval]))  \n+ sum by (cluster) (irate(ceph_osd_op_r[$__interval])) )",
                      "format": "time_series",
                      "instant": false,
@@ -1940,7 +1940,7 @@
                "type": "timeseries"
             },
             {
-               "datasource": "${DS_PROMETHEUS}",
+               "datasource": "${prometheusds}",
                "fieldConfig": {
                   "defaults": {
                      "color": {
@@ -2015,7 +2015,7 @@
                "pluginVersion": "9.1.3",
                "targets": [
                   {
-                     "datasource": "${DS_PROMETHEUS}",
+                     "datasource": "${prometheusds}",
                      "expr": "topk(10, ceph_pool_bytes_used{cluster=~\"$Cluster\"}/ceph_pool_max_avail{cluster=~\"$Cluster\"} * on(pool_id, cluster) group_left(instance, name) ceph_pool_metadata{cluster=~\"$Cluster\"})",
                      "format": "time_series",
                      "instant": false,
@@ -2049,26 +2049,12 @@
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "default",
-               "value": "default"
-            },
-            "hide": 0,
-            "label": "Data Source",
-            "name": "DS_PROMETHEUS",
-            "options": [ ],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "type": "datasource"
-         },
-         {
             "allValue": null,
             "current": {
                "text": "All",
                "value": "All"
             },
-            "datasource": "$DS_PROMETHEUS",
+            "datasource": "$prometheusds",
             "hide": 0,
             "includeAll": true,
             "label": null,
