@@ -1,4 +1,0 @@
-tasks:
-  - exec:
-      client.0:
-        - rm -rf /home/ubuntu/cephtest/migration
